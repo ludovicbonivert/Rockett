@@ -32,6 +32,9 @@ public class PerformancesActivity extends ActionBarActivity {
         }
         setTitle(getString(R.string.performancesActivity));
 
+        // Providing up navigation, back to the mainActivity
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
     }
 
     @Override

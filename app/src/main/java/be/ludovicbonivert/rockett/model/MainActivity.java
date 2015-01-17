@@ -4,12 +4,21 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
+
+import com.parse.FindCallback;
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
+
+import java.util.List;
 
 import be.ludovicbonivert.rockett.R;
 
@@ -68,6 +77,11 @@ public class MainActivity extends ActionBarActivity {
      */
     public static class TimerInfoFragment extends Fragment {
 
+        double totalProductivityMinutes = 0;
+
+        // The amountOfParseObjects will help me calculating the average productivity
+        int amountOfParseObjects;
+
         public TimerInfoFragment() {
 
         }
@@ -77,7 +91,7 @@ public class MainActivity extends ActionBarActivity {
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_main, container, false);
             createListenerOnViewPerformancesButton(rootView);
-            rootView.setBackgroundColor(getResources().getColor(R.color.main_blue));
+            getTotalProductivityMinutes(rootView);
             return rootView;
         }
 
@@ -92,7 +106,53 @@ public class MainActivity extends ActionBarActivity {
                     startActivity(viewPerformances);
                 }
             });
+        }
 
+        protected void getTotalProductivityMinutes(final View rootview){
+
+            final TextView totalMinutesMain = (TextView) rootview.findViewById(R.id.main_timer);
+
+            // We need to add all the total minutes from the Chronos class
+            ParseQuery<ParseObject> query = new ParseQuery<ParseObject>("Chronos");
+            query.findInBackground(new FindCallback<ParseObject>() {
+                @Override
+                public void done(List<ParseObject> parseObjects, ParseException e) {
+
+                    if(e == null){
+                        for(int i = 0; i < parseObjects.size(); i++){
+                            if(i == 0){
+                                amountOfParseObjects = parseObjects.size();
+                            }
+                            totalProductivityMinutes += (double) parseObjects.get(i).getDouble("timeInMinutes");
+                        }
+                        totalMinutesMain.setText(String.valueOf(Math.round(totalProductivityMinutes)));
+                        // We need to call the converter AFTER the parsing is done.
+                        convertTotalProductivityMinutesToRocketts(rootview);
+                        calculateAverageProductivity(rootview);
+
+                    }else{
+                        Log.e("MainActivity", "Something went wrong parsing the Chronos object");
+                        totalMinutesMain.setText("Error");
+                    }
+
+                }
+            });
+        }
+
+        protected void convertTotalProductivityMinutesToRocketts(View rootview){
+
+            TextView totalRocketts = (TextView) rootview.findViewById(R.id.total_rocketts);
+            totalRocketts.setText(String.valueOf(Math.round(totalProductivityMinutes) % 25));
+
+        }
+
+        protected void calculateAverageProductivity(View rootview){
+
+            TextView averageProductivity = (TextView) rootview.findViewById(R.id.average_productivity);
+            Log.e("MainActivity", "Total minutes " + totalProductivityMinutes);
+            Log.e("MainActivity", "Total objects " + amountOfParseObjects);
+
+            averageProductivity.setText(String.valueOf(Math.round(totalProductivityMinutes / amountOfParseObjects)));
 
         }
 
