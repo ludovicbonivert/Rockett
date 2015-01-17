@@ -73,12 +73,11 @@ public class MainActivity extends ActionBarActivity {
     }
 
     /**
-     * A placeholder fragment containing a simple view.
+     * TimeInfoFragment containing the components of the main screen
      */
     public static class TimerInfoFragment extends Fragment {
 
         double totalProductivityMinutes = 0;
-
         // The amountOfParseObjects will help me calculating the average productivity
         int amountOfParseObjects;
 
