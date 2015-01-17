@@ -77,6 +77,7 @@ public class MainActivity extends ActionBarActivity {
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_main, container, false);
             createListenerOnViewPerformancesButton(rootView);
+            rootView.setBackgroundColor(getResources().getColor(R.color.main_blue));
             return rootView;
         }
 

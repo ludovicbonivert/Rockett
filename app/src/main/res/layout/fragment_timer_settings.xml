@@ -42,7 +42,10 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/editText_task"
-                android:hint="@string/txt_task_hint" />
+                android:hint="@string/txt_task_hint"
+                android:maxLines="1"
+                android:ellipsize="end"
+                />
         </LinearLayout>
 
     </LinearLayout>

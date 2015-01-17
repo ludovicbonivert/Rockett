@@ -148,10 +148,13 @@ public class ChronometerActivity extends ActionBarActivity {
                     ParseObject chrono = new ParseObject("Chronos");
                     // We first need to receive the value from the chronometer
                     long elapsedMillis = SystemClock.elapsedRealtime() - chronometer.getBase();
-                    double seconds = elapsedMillis/1000.0;
+                    double seconds = elapsedMillis / 1000.0;
 
-                    // put it in the parseObject
+                    double minutes = Math.round(seconds / 60);
+
+                    // to get the result in minutes we need to modulo it to 60 and round to two numbers
                     chrono.put("timeInSeconds", seconds);
+                    chrono.put("timeInMinutes", minutes);
                     // Take task string and set it into the parseObject
                     chrono.put("task", task);
                     chrono.saveInBackground();

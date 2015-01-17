@@ -30,6 +30,7 @@ public class PerformancesActivity extends ActionBarActivity {
                     .add(R.id.container, new PlaceholderFragment())
                     .commit();
         }
+        setTitle(getString(R.string.performancesActivity));
 
     }
 
@@ -88,7 +89,8 @@ public class PerformancesActivity extends ActionBarActivity {
                 }
             });
             mainAdapter.setTextKey("task");
-            mainAdapter.setTextKey("timeInSeconds");
+            // Do we really need to show the seconds ? mainAdapter.setTextKey("timeInSeconds");
+            mainAdapter.setTextKey("timeInMinutes");
 
             // init ListView
             listView = (ListView) rootview.findViewById(R.id.perf_listView);

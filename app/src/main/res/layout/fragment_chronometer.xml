@@ -68,7 +68,9 @@
             android:id="@+id/btn_pauseChrono"
             android:layout_gravity="center_horizontal"
 
-            />
+            android:background="#ffffff"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="10dp" />
 
         <Button
             android:layout_width="wrap_content"
@@ -76,13 +78,18 @@
             android:text="Stop"
             android:id="@+id/btn_stopChrono"
 
-            />
+            android:background="#ffffff"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp" />
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Restart"
-            android:id="@+id/btn_restartChrono" />
+            android:id="@+id/btn_restartChrono"
+            android:background="#ffffff"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="10dp" />
 
     </LinearLayout>
 

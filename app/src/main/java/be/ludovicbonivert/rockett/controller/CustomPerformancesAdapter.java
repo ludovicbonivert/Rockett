@@ -41,7 +41,17 @@ public class CustomPerformancesAdapter extends ParseQueryAdapter<ParseObject>{
 
         // Add the timer view
         TextView timerTextView = (TextView) v.findViewById(R.id.item_timer);
-        timerTextView.setText(object.getNumber("timeInSeconds").toString());
+
+        if(object.getNumber("timeInSeconds").intValue() < 60){
+            timerTextView.setText(Math.round(object.getNumber("timeInSeconds").doubleValue()) + " sec");
+
+        } else{
+            Math.round(object.getNumber("timeInMinutes").doubleValue());
+            timerTextView.setText(Math.round(object.getNumber("timeInMinutes").doubleValue()) + " min");
+
+        }
+
+
 
         // Add the task view
         TextView taskTextView = (TextView) v.findViewById(R.id.item_task);
@@ -53,7 +63,7 @@ public class CustomPerformancesAdapter extends ParseQueryAdapter<ParseObject>{
         // format the received date to a shorter timestamp
         SimpleDateFormat formater = new SimpleDateFormat("M/d/yyyy");
         String datestring = formater.format(date);
-        
+
         dateTextView.setText(datestring);
 
 
