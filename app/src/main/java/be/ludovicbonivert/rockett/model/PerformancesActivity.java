@@ -11,9 +11,11 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 
 import com.parse.ParseObject;
+import com.parse.ParseQuery;
 import com.parse.ParseQueryAdapter;
 
 import be.ludovicbonivert.rockett.R;
+import be.ludovicbonivert.rockett.controller.CustomPerformancesAdapter;
 
 public class PerformancesActivity extends ActionBarActivity {
 
@@ -76,7 +78,15 @@ public class PerformancesActivity extends ActionBarActivity {
         private void initPerformancesListView(View rootview){
 
             // init main ParseQueryAdapter
-            mainAdapter = new ParseQueryAdapter<ParseObject>(getActivity(), "Chronos");
+            //mainAdapter = new ParseQueryAdapter<ParseObject>(getActivity(), "Chronos");
+            mainAdapter = new CustomPerformancesAdapter(getActivity(), new ParseQueryAdapter.QueryFactory<ParseObject>() {
+                @Override
+                public ParseQuery<ParseObject> create() {
+
+                    ParseQuery<ParseObject> query = new ParseQuery<ParseObject>("Chronos");
+                    return query;
+                }
+            });
             mainAdapter.setTextKey("task");
             mainAdapter.setTextKey("timeInSeconds");
 
