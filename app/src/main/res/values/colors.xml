@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Android colors -->
+    <color name="main_blue">#2196F3</color>
+    <color name="main_blue2">#33B5E5</color>
+    <color name="blue_200">#90CAF9</color>
+    <color name="blue_300">#64B5F6</color>
+    <color name="blue_600">#1E88E5</color>
+    <color name="blue_800">#1565C0</color>
+</resources>

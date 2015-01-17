@@ -1,0 +1,89 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="fill_parent"
+    android:layout_height="wrap_content" android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context="be.ludovicbonivert.rockett.model.ChronometerActivity$PlaceholderFragment"
+    android:orientation="vertical">
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+        android:id="@+id/txtView_chronometer"
+        android:layout_gravity="center_horizontal"
+        android:paddingTop="170dp" />
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_marginTop="-20dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/working_on"
+            android:id="@+id/WorkingOn"
+            android:layout_gravity="center_horizontal"
+            android:textColor="@color/blue_800" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/task_for_empty_intent"
+            android:id="@+id/task"
+            android:layout_gravity="center_horizontal"
+            android:textSize="15sp" />
+
+        <Chronometer
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:id="@+id/chronometer"
+            android:textSize="40sp"
+            android:format="%s"
+            android:layout_gravity="center_horizontal"
+            android:text="00:00:00"
+            android:textColor="#ffffffff"
+            android:gravity="center_vertical|center_horizontal" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+
+        android:layout_gravity="center_horizontal">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Pause"
+            android:id="@+id/btn_pauseChrono"
+            android:layout_gravity="center_horizontal"
+
+            />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Stop"
+            android:id="@+id/btn_stopChrono"
+
+            />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Restart"
+            android:id="@+id/btn_restartChrono" />
+
+    </LinearLayout>
+
+</LinearLayout>
