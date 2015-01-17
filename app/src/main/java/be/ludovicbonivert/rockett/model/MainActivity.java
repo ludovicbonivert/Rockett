@@ -88,6 +88,7 @@ public class MainActivity extends ActionBarActivity {
                 @Override
                 public void onClick(View v) {
                     Intent viewPerformances = new Intent(getActivity(), PerformancesActivity.class);
+                    startActivity(viewPerformances);
                 }
             });
 

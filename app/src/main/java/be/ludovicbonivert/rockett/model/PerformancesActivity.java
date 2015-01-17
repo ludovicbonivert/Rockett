@@ -8,6 +8,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 
 import com.parse.ParseObject;
 import com.parse.ParseQueryAdapter;
@@ -15,6 +16,8 @@ import com.parse.ParseQueryAdapter;
 import be.ludovicbonivert.rockett.R;
 
 public class PerformancesActivity extends ActionBarActivity {
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,13 +29,7 @@ public class PerformancesActivity extends ActionBarActivity {
                     .commit();
         }
 
-        ParseQueryAdapter mainAdapter = new ParseQueryAdapter<ParseObject>(this, "Chronos");
-        mainAdapter.setTextKey("task");
-
-        
-
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -61,6 +58,9 @@ public class PerformancesActivity extends ActionBarActivity {
      */
     public static class PlaceholderFragment extends Fragment {
 
+        private ParseQueryAdapter<ParseObject> mainAdapter;
+        private ListView listView;
+
         public PlaceholderFragment() {
         }
 
@@ -68,7 +68,24 @@ public class PerformancesActivity extends ActionBarActivity {
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_performances, container, false);
+            initPerformancesListView(rootView);
+
             return rootView;
         }
+
+        private void initPerformancesListView(View rootview){
+
+            // init main ParseQueryAdapter
+            mainAdapter = new ParseQueryAdapter<ParseObject>(getActivity(), "Chronos");
+            mainAdapter.setTextKey("task");
+            mainAdapter.setTextKey("timeInSeconds");
+
+            // init ListView
+            listView = (ListView) rootview.findViewById(R.id.perf_listView);
+            listView.setAdapter(mainAdapter);
+            mainAdapter.loadObjects();
+
+        }
+
     }
 }
