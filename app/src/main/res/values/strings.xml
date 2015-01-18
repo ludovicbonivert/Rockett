@@ -5,14 +5,14 @@
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="action_addTimer">Launch</string>
-    <string name="main_timer">[twentythousand]</string>
+    <string name="main_timer">[-----]</string>
     <string name="txt_total_productivity" translatable="true">TOTAL PRODUCTIVITY MINUTES</string>
     <string name="txt_submain_prev_week">prev. week</string>
     <string name="txt_submain_average_user">average min.</string>
     <string name="txt_submain_total_rocketts">total rocketts</string>
-    <string name="txt_submain_prev_week_result">[RESULT]</string>
-    <string name="txt_submain_average_user_result">[RESULT]</string>
-    <string name="txt_submain_total_rocketts_result">[RESULT]</string>
+    <string name="txt_submain_prev_week_result">[-----]</string>
+    <string name="txt_submain_average_user_result">[-----]</string>
+    <string name="txt_submain_total_rocketts_result">[-----]</string>
     <string name="txt_rockett_the_world">Rockett the world</string>
     <string name="txt_view_performances">View performances</string>
     <string name="txt_add_note">Add task</string>

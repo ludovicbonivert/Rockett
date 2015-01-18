@@ -128,20 +128,45 @@ public class MainActivity extends ActionBarActivity {
         protected void getTotalProductivityMinutes(final View rootview){
 
             final TextView totalMinutesMain = (TextView) rootview.findViewById(R.id.main_timer);
+            ParseQuery<ParseObject> query = new ParseQuery<ParseObject>("Chronos");
 
             if(isConnectedToInternet){
-                // We need to add all the total minutes from the Chronos class
-                ParseQuery<ParseObject> query = new ParseQuery<ParseObject>("Chronos");
-
                 try{
                     // If we have internet connection, pin all the data to the local data store first !
                     List<ParseObject> objects = query.find();
                     // Save all the data on the local (offline) data store
                     ParseObject.pinAllInBackground(objects);
+
                 }catch(ParseException e){
                     Log.e("MainActivity", "Couldn't fetch online data to local" + e.getCode());
                 }
-                
+
+                query.fromLocalDatastore().findInBackground(new FindCallback<ParseObject>() {
+                    @Override
+                    public void done(List<ParseObject> parseObjects, ParseException e) {
+
+                        if(e == null){
+                            for(int i = 0; i < parseObjects.size(); i++){
+                                if(i == 0){
+                                    amountOfParseObjects = parseObjects.size();
+                                }
+                                totalProductivityMinutes += (double) parseObjects.get(i).getDouble("timeInMinutes");
+                            }
+                            totalMinutesMain.setText(String.valueOf(Math.round(totalProductivityMinutes)));
+                            // We need to call the converter AFTER the parsing is done.
+                            convertTotalProductivityMinutesToRocketts(rootview);
+                            calculateAverageProductivity(rootview);
+
+                        }else{
+                            Log.e("MainActivity", "Something went wrong parsing the Chronos object");
+                            totalMinutesMain.setText("Error");
+                        }
+
+                    }
+                });
+
+
+                /*
                 query.findInBackground(new FindCallback<ParseObject>() {
                     @Override
                     public void done(List<ParseObject> parseObjects, ParseException e) {
@@ -165,28 +190,47 @@ public class MainActivity extends ActionBarActivity {
 
                     }
                 });
+                */
             }
             // If Device isn't connected, retrieve data from local datastore
             else{
+                // Query the local data store
+                query.fromLocalDatastore().findInBackground(new FindCallback<ParseObject>() {
+                    @Override
+                    public void done(List<ParseObject> parseObjects, ParseException e) {
+
+                        if(e == null){
+                            for(int i = 0; i < parseObjects.size(); i++){
+                                if(i == 0){
+                                    amountOfParseObjects = parseObjects.size();
+                                }
+                                totalProductivityMinutes += (double) parseObjects.get(i).getDouble("timeInMinutes");
+                            }
+                            totalMinutesMain.setText(String.valueOf(Math.round(totalProductivityMinutes)));
+                            // We need to call the converter AFTER the parsing is done.
+                            convertTotalProductivityMinutesToRocketts(rootview);
+                            calculateAverageProductivity(rootview);
+
+                        }else{
+                            Log.e("MainActivity", "Something went wrong parsing the Chronos object");
+                            totalMinutesMain.setText("Error");
+                        }
+
+                    }
+                });
 
             }
-
-
         }
-
         protected void convertTotalProductivityMinutesToRocketts(View rootview){
 
             TextView totalRocketts = (TextView) rootview.findViewById(R.id.total_rocketts);
-            totalRocketts.setText(String.valueOf(Math.round(totalProductivityMinutes) % 25));
+            totalRocketts.setText(String.valueOf(Math.round(totalProductivityMinutes) / 25));
 
         }
 
         protected void calculateAverageProductivity(View rootview){
 
             TextView averageProductivity = (TextView) rootview.findViewById(R.id.average_productivity);
-            Log.e("MainActivity", "Total minutes " + totalProductivityMinutes);
-            Log.e("MainActivity", "Total objects " + amountOfParseObjects);
-
             averageProductivity.setText(String.valueOf(Math.round(totalProductivityMinutes / amountOfParseObjects)));
 
         }
