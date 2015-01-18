@@ -16,18 +16,18 @@
         <dex dex="/Users/LudovicBonivert/AndroidStudioProjects/Rockett/app/build/intermediates/pre-dexed/debug/support-annotations-21.0.3-4082d686e524edb78f6601d4abef63fe5720817f.jar" />
     </item>
     <item
-        jar="/Users/LudovicBonivert/AndroidStudioProjects/Rockett/app/libs/Parse-1.8.1/Parse-1.8.1.jar"
-        jumboMode="false"
-        revision="21.1.2"
-        sha1="dd491448169a0c142a786164b249139d2407a6f9">
-        <dex dex="/Users/LudovicBonivert/AndroidStudioProjects/Rockett/app/build/intermediates/pre-dexed/debug/Parse-1.8.1-708765aaf5f95c6c24b6bf259a2d4611afc5e249.jar" />
-    </item>
-    <item
         jar="/Users/LudovicBonivert/AndroidStudioProjects/Rockett/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.3/classes.jar"
         jumboMode="false"
         revision="21.1.2"
         sha1="81d42bf983a8741f4888a6e333e454e4a5e0eeb7">
         <dex dex="/Users/LudovicBonivert/AndroidStudioProjects/Rockett/app/build/intermediates/pre-dexed/debug/classes-f9e8fe7caa454b0adc079f368927299b47b67188.jar" />
+    </item>
+    <item
+        jar="/Users/LudovicBonivert/AndroidStudioProjects/Rockett/app/libs/Parse-1.8.1/Parse-1.8.1.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="dd491448169a0c142a786164b249139d2407a6f9">
+        <dex dex="/Users/LudovicBonivert/AndroidStudioProjects/Rockett/app/build/intermediates/pre-dexed/debug/Parse-1.8.1-708765aaf5f95c6c24b6bf259a2d4611afc5e249.jar" />
     </item>
     <item
         jar="/Users/LudovicBonivert/.gradle/caches/modules-2/files-2.1/com.parse.bolts/bolts-android/1.1.4/129874135e6081269ace2312092031558865de12/bolts-android-1.1.4.jar"

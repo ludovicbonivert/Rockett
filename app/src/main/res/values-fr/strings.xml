@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Rockett</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Paramètres</string>
+    <string name="action_addTimer">Démarrer</string>
+    <string name="main_timer">[-----]</string>
+    <string name="txt_total_productivity" translatable="true">TOTAL DE MINUTES PRODUCTIVES</string>
+    <string name="txt_submain_prev_week">semaine prec.</string>
+    <string name="txt_submain_average_user">moyenne min.</string>
+    <string name="txt_submain_total_rocketts">total rocketts</string>
+    <string name="txt_submain_prev_week_result">[-----]</string>
+    <string name="txt_submain_average_user_result">[-----]</string>
+    <string name="txt_submain_total_rocketts_result">[-----]</string>
+    <string name="txt_rockett_the_world">Rockett the world</string>
+    <string name="txt_view_performances">Voir performances</string>
+    <string name="txt_add_note">Ajouter tâche</string>
+    <string name="txt_task_hint">Qu\'elle tâche aller vous effectuer ?</string>
+    <string name="title_activity_timer_settings">Paramètres Timer</string>
+    <string name="working_on">Travaille à</string>
+    <string name="task_for_empty_intent">créer un meilleur monde</string>
+    <string name="taskParamForIntent">taskNote</string>
+    <string name="performancesActivity">Vos performances</string>
+    <string name="delete">Supprimer</string>
+
+    <!-- Populate spinner in Timer Settings -->
+    <string-array name="timersettings_options">
+        <item>Chronomètre</item>
+        <item>Compte à rebours</item>
+    </string-array>
+
+    <string name="title_activity_chronometer">ChronometerActivity</string>
+    <string name="title_activity_countdown">CountdownActivity</string>
+    <string name="title_activity_performances">PerformancesActivity</string>
+
+</resources>

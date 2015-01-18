@@ -43,6 +43,9 @@ public class MainActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
+
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.container, new TimerInfoFragment())
@@ -148,9 +151,9 @@ public class MainActivity extends ActionBarActivity {
                     @Override
                     public void done(List<ParseObject> parseObjects, ParseException e) {
 
-                        if(e == null){
-                            for(int i = 0; i < parseObjects.size(); i++){
-                                if(i == 0){
+                        if (e == null) {
+                            for (int i = 0; i < parseObjects.size(); i++) {
+                                if (i == 0) {
                                     amountOfParseObjects = parseObjects.size();
                                 }
                                 totalProductivityMinutes += (double) parseObjects.get(i).getDouble("timeInMinutes");
@@ -160,7 +163,7 @@ public class MainActivity extends ActionBarActivity {
                             convertTotalProductivityMinutesToRocketts(rootview);
                             calculateAverageProductivity(rootview);
 
-                        }else{
+                        } else {
                             Log.e("MainActivity", "Something went wrong parsing the Chronos object");
                             totalMinutesMain.setText("Error");
                         }
