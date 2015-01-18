@@ -136,6 +136,8 @@ public class MainActivity extends ActionBarActivity {
 
                     // If we have internet connection, pin all the data to the local data store first !
                     List<ParseObject> objects = query.find();
+                    // Delete all existing data
+                    ParseObject.unpinAllInBackground();
                     // Save all the data on the local (offline) data store
                     ParseObject.pinAllInBackground(objects);
 

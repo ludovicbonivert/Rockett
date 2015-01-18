@@ -103,19 +103,29 @@ public class PerformancesActivity extends ActionBarActivity {
 
             // First we need to retrieve the parse object from the listview and query the server what's that object there
             ParseObject selectedobject = (ParseObject)listView.getItemAtPosition(currentTaskId);
-            selectedobject.unpinInBackground();
-            try {
-                selectedobject.unpin();
-                selectedobject.deleteEventually();
-                mainAdapter.notifyDataSetChanged();
-            }catch(ParseException e){
-                Log.e("PerformancesActivity", "Could not unpin selected item" + e.getCode());
-            }
 
+            if(MainActivity.isConnectedToInternet){
+                selectedobject.deleteInBackground();
+                try{
+                    selectedobject.unpin();
+                }catch(ParseException e){
+                    Log.e("PerformancesActivity", "Could not unpin selected item (online)" + e.getCode());
+                    e.getCode();
+                }
+                mainAdapter.notifyDataSetChanged();
+
+            }else {
+                try {
+                    selectedobject.unpin();
+                    selectedobject.deleteEventually();
+                    mainAdapter.notifyDataSetChanged();
+                }catch(ParseException e){
+                    Log.e("PerformancesActivity", "Could not unpin selected item (offline)" + e.getCode());
+                }
+
+            }
             // reload the adapter
             mainAdapter.loadObjects();
-
-
             return super.onContextItemSelected(item);
         }
 
