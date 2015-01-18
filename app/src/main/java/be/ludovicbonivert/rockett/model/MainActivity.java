@@ -131,16 +131,22 @@ public class MainActivity extends ActionBarActivity {
         protected void getTotalProductivityMinutes(final View rootview){
 
             final TextView totalMinutesMain = (TextView) rootview.findViewById(R.id.main_timer);
+
+
             if(isConnectedToInternet){
                 ParseQuery<ParseObject> query = new ParseQuery<ParseObject>("Chronos");
+
+                // replace content of local datastore to the actual up to date content
+
                 try{
 
                     // If we have internet connection, pin all the data to the local data store first !
                     List<ParseObject> objects = query.find();
                     // Delete all existing data
-                    ParseObject.unpinAllInBackground();
+                    ParseObject.unpinAll();
+                    //ParseObject.unpinAllInBackground();
                     // Save all the data on the local (offline) data store
-                    ParseObject.pinAllInBackground(objects);
+                    ParseObject.pinAll(objects);
 
 
                 }catch(ParseException e){
@@ -152,6 +158,7 @@ public class MainActivity extends ActionBarActivity {
                     public void done(List<ParseObject> parseObjects, ParseException e) {
 
                         if (e == null) {
+
                             for (int i = 0; i < parseObjects.size(); i++) {
                                 if (i == 0) {
                                     amountOfParseObjects = parseObjects.size();
@@ -201,16 +208,16 @@ public class MainActivity extends ActionBarActivity {
             // If Device isn't connected, retrieve data from local datastore
             else{
                 ParseQuery<ParseObject> query = new ParseQuery<ParseObject>("Chronos").fromLocalDatastore();
-
                 try{
 
+                    /*
                     // Delete all existing data
                     ParseObject.unpinAllInBackground();
+                    */
 
-                    // If we have internet connection, pin all the data to the local data store first !
+                    // Query all the objects from the Parse local datastore
                     List<ParseObject> objects = query.find();
-
-                    // Save all the data on the local (offline) data store
+                    // Save all the data on the local (offline) datastore
                     ParseObject.pinAllInBackground(objects);
 
 
