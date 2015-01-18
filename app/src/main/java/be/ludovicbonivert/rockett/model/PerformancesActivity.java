@@ -105,9 +105,11 @@ public class PerformancesActivity extends ActionBarActivity {
             ParseObject selectedobject = (ParseObject)listView.getItemAtPosition(currentTaskId);
 
             if(MainActivity.isConnectedToInternet){
-                selectedobject.deleteInBackground();
                 try{
+                    /* InBackground make the process of deleting slower. */
+                    //selectedobject.deleteInBackground();
                     selectedobject.unpin();
+                    selectedobject.delete();
                 }catch(ParseException e){
                     Log.e("PerformancesActivity", "Could not unpin selected item (online)" + e.getCode());
                     e.getCode();
@@ -117,20 +119,20 @@ public class PerformancesActivity extends ActionBarActivity {
             }else {
                 try {
                     selectedobject.unpin();
+                    // Delete eventually will delete the object ones there is a internet connection
                     selectedobject.deleteEventually();
-                    mainAdapter.notifyDataSetChanged();
+                    // Delete in background will ensure that the object is deleted from the localDB
+                    selectedobject.deleteInBackground();
                 }catch(ParseException e){
                     Log.e("PerformancesActivity", "Could not unpin selected item (offline)" + e.getCode());
                 }
-
+                mainAdapter.notifyDataSetChanged();
             }
             // reload the adapter
             mainAdapter.loadObjects();
             return super.onContextItemSelected(item);
         }
-
         private void initPerformancesListView(View rootview){
-
             if(MainActivity.isConnectedToInternet){
 
                 // init main ParseQueryAdapter
@@ -141,18 +143,19 @@ public class PerformancesActivity extends ActionBarActivity {
                         return query;
                     }
                 });
-
             }else {
                 // init main ParseQueryAdapter
                 mainAdapter = new CustomPerformancesAdapter(getActivity(), new ParseQueryAdapter.QueryFactory<ParseObject>() {
                     @Override
                     public ParseQuery<ParseObject> create() {
+
                         ParseQuery<ParseObject> query = new ParseQuery<ParseObject>("Chronos").fromLocalDatastore();
                         return query;
                     }
                 });
 
             }
+
             mainAdapter.setTextKey("task");
             // Do we really need to show the seconds ? mainAdapter.setTextKey("timeInSeconds");
             mainAdapter.setTextKey("timeInMinutes");
