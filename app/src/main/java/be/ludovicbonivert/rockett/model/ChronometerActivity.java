@@ -16,6 +16,10 @@ import android.widget.TextView;
 
 import com.parse.ParseObject;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
 import be.ludovicbonivert.rockett.R;
 
 public class ChronometerActivity extends ActionBarActivity {
@@ -158,9 +162,22 @@ public class ChronometerActivity extends ActionBarActivity {
                     // Take task string and set it into the parseObject
                     chrono.put("task", task);
 
+                    // Bug with createdAt when offline, copying that value to a custom date row
+                    DateFormat df = new SimpleDateFormat("EEE, d MMM yyyy, HH:mm");
+                    String todayAndNow = df.format(Calendar.getInstance().getTime());
+
+                    chrono.put("creationDate", todayAndNow);
+
                     /* Save in background will save it to parse. That can only happen if there is an internet connection */
-                    //chrono.saveInBackground();
-                    chrono.saveEventually();
+                    //
+                    chrono.pinInBackground();
+
+                    if(MainActivity.isConnectedToInternet){
+                        chrono.saveInBackground();
+                    }else{
+                        chrono.saveEventually();
+                    }
+
 
                     Intent backToMain = new Intent(getActivity(), MainActivity.class);
                     startActivity(backToMain);

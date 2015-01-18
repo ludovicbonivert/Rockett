@@ -128,20 +128,23 @@ public class MainActivity extends ActionBarActivity {
         protected void getTotalProductivityMinutes(final View rootview){
 
             final TextView totalMinutesMain = (TextView) rootview.findViewById(R.id.main_timer);
-            ParseQuery<ParseObject> query = new ParseQuery<ParseObject>("Chronos");
+            //ParseQuery<ParseObject> query = new ParseQuery<ParseObject>("Chronos");
 
             if(isConnectedToInternet){
+                ParseQuery<ParseObject> query = new ParseQuery<ParseObject>("Chronos");
                 try{
+
                     // If we have internet connection, pin all the data to the local data store first !
                     List<ParseObject> objects = query.find();
                     // Save all the data on the local (offline) data store
                     ParseObject.pinAllInBackground(objects);
 
+
                 }catch(ParseException e){
                     Log.e("MainActivity", "Couldn't fetch online data to local" + e.getCode());
                 }
 
-                query.fromLocalDatastore().findInBackground(new FindCallback<ParseObject>() {
+                query.findInBackground(new FindCallback<ParseObject>() {
                     @Override
                     public void done(List<ParseObject> parseObjects, ParseException e) {
 
@@ -194,11 +197,12 @@ public class MainActivity extends ActionBarActivity {
             }
             // If Device isn't connected, retrieve data from local datastore
             else{
+                ParseQuery<ParseObject> query = new ParseQuery<ParseObject>("Chronos").fromLocalDatastore();
                 // Query the local data store
                 query.fromLocalDatastore().findInBackground(new FindCallback<ParseObject>() {
+                    // After one item has been deleted from the performancesList we need to reload the data first with newer data
                     @Override
                     public void done(List<ParseObject> parseObjects, ParseException e) {
-
                         if(e == null){
                             for(int i = 0; i < parseObjects.size(); i++){
                                 if(i == 0){

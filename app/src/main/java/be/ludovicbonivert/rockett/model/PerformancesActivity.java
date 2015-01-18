@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -13,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseQueryAdapter;
@@ -26,6 +28,7 @@ public class PerformancesActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_performances);
+
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.container, new PlaceholderFragment())
@@ -94,32 +97,52 @@ public class PerformancesActivity extends ActionBarActivity {
             menu.add(getString(R.string.delete));
         }
 
-
         // User have selected an item. Now delete it
         @Override
         public boolean onContextItemSelected(MenuItem item) {
 
             // First we need to retrieve the parse object from the listview and query the server what's that object there
             ParseObject selectedobject = (ParseObject)listView.getItemAtPosition(currentTaskId);
-            selectedobject.deleteInBackground();
+            selectedobject.unpinInBackground();
+            try {
+                selectedobject.unpin();
+                selectedobject.deleteEventually();
+                mainAdapter.notifyDataSetChanged();
+            }catch(ParseException e){
+                Log.e("PerformancesActivity", "Could not unpin selected item" + e.getCode());
+            }
+
             // reload the adapter
             mainAdapter.loadObjects();
+
 
             return super.onContextItemSelected(item);
         }
 
         private void initPerformancesListView(View rootview){
 
-            // init main ParseQueryAdapter
-            //mainAdapter = new ParseQueryAdapter<ParseObject>(getActivity(), "Chronos");
-            mainAdapter = new CustomPerformancesAdapter(getActivity(), new ParseQueryAdapter.QueryFactory<ParseObject>() {
-                @Override
-                public ParseQuery<ParseObject> create() {
+            if(MainActivity.isConnectedToInternet){
 
-                    ParseQuery<ParseObject> query = new ParseQuery<ParseObject>("Chronos");
-                    return query;
-                }
-            });
+                // init main ParseQueryAdapter
+                mainAdapter = new CustomPerformancesAdapter(getActivity(), new ParseQueryAdapter.QueryFactory<ParseObject>() {
+                    @Override
+                    public ParseQuery<ParseObject> create() {
+                        ParseQuery<ParseObject> query = new ParseQuery<ParseObject>("Chronos");
+                        return query;
+                    }
+                });
+
+            }else {
+                // init main ParseQueryAdapter
+                mainAdapter = new CustomPerformancesAdapter(getActivity(), new ParseQueryAdapter.QueryFactory<ParseObject>() {
+                    @Override
+                    public ParseQuery<ParseObject> create() {
+                        ParseQuery<ParseObject> query = new ParseQuery<ParseObject>("Chronos").fromLocalDatastore();
+                        return query;
+                    }
+                });
+
+            }
             mainAdapter.setTextKey("task");
             // Do we really need to show the seconds ? mainAdapter.setTextKey("timeInSeconds");
             mainAdapter.setTextKey("timeInMinutes");

@@ -12,6 +12,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import be.ludovicbonivert.rockett.R;
+import be.ludovicbonivert.rockett.model.MainActivity;
 
 /**
  * Created by LudovicBonivert on 17/01/15.
@@ -51,22 +52,26 @@ public class CustomPerformancesAdapter extends ParseQueryAdapter<ParseObject>{
 
         }
 
-
-
         // Add the task view
         TextView taskTextView = (TextView) v.findViewById(R.id.item_task);
         taskTextView.setText(object.getString("task"));
 
         // Add the date view
         TextView dateTextView = (TextView) v.findViewById(R.id.item_date);
-        Date date = object.getCreatedAt();
-        // format the received date to a shorter timestamp
-        SimpleDateFormat formater = new SimpleDateFormat("M/d/yyyy");
-        String datestring = formater.format(date);
 
-        dateTextView.setText(datestring);
-
-
+        // If we have an internetConnection we can get the online timestamp
+        if(MainActivity.isConnectedToInternet){
+            Date date = object.getCreatedAt();
+            // format the received date to a shorter timestamp
+            SimpleDateFormat formater = new SimpleDateFormat("M/d/yyyy");
+            String datestring = formater.format(date);
+            dateTextView.setText(datestring);
+        }
+        // If its not the case we take the custom date
+        else{
+            String datestring = object.getString("creationDate");
+            dateTextView.setText(datestring);
+        }
         return v;
     }
 }
