@@ -157,7 +157,10 @@ public class ChronometerActivity extends ActionBarActivity {
                     chrono.put("timeInMinutes", minutes);
                     // Take task string and set it into the parseObject
                     chrono.put("task", task);
-                    chrono.saveInBackground();
+
+                    /* Save in background will save it to parse. That can only happen if there is an internet connection */
+                    //chrono.saveInBackground();
+                    chrono.saveEventually();
 
                     Intent backToMain = new Intent(getActivity(), MainActivity.class);
                     startActivity(backToMain);

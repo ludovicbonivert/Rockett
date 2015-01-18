@@ -36,6 +36,7 @@
         </activity>
         <activity
             android:name=".model.PerformancesActivity"
+            android:parentActivityName=".model.MainActivity"
             android:label="@string/title_activity_performances" >
         </activity>
     </application>

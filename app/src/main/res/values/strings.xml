@@ -22,6 +22,7 @@
     <string name="task_for_empty_intent">making the world a better place</string>
     <string name="taskParamForIntent">taskNote</string>
     <string name="performancesActivity">Your performances</string>
+    <string name="delete">Delete</string>
 
     <!-- Populate spinner in Timer Settings -->
     <string-array name="timersettings_options">

@@ -21,7 +21,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/item_timer"
             android:text="Timer"
-            android:textColor="@color/main_blue"
+            android:textColor="#ffffff"
             android:textSize="30sp" />
 
         <TextView
@@ -32,7 +32,8 @@
             android:layout_marginLeft="30dp"
             android:maxLines="1"
             android:ellipsize="end"
-            android:layout_marginTop="-5dp" />
+            android:layout_marginTop="-5dp"
+            android:textColor="@color/blue_800" />
 
         </LinearLayout>
 

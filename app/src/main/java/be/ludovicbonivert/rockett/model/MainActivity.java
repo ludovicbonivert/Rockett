@@ -1,6 +1,9 @@
 package be.ludovicbonivert.rockett.model;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
@@ -33,6 +36,8 @@ import be.ludovicbonivert.rockett.R;
 public class MainActivity extends ActionBarActivity {
 
     private final String LOG_TAG = MainActivity.class.getSimpleName();
+    public static boolean isConnectedToInternet = false;
+    public static boolean isConnectedToWifi = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +48,8 @@ public class MainActivity extends ActionBarActivity {
                     .add(R.id.container, new TimerInfoFragment())
                     .commit();
         }
+        // We need to determine our internet connection. If connected, load data from parse else load from local storage
+        getInternetStatusOfDevice();
     }
 
     @Override
@@ -70,6 +77,17 @@ public class MainActivity extends ActionBarActivity {
     private void createNewTimer(){
         Intent intentForTimerSettings = new Intent(this, TimerSettingsActivity.class);
         startActivity(intentForTimerSettings);
+    }
+
+    private void getInternetStatusOfDevice(){
+
+        ConnectivityManager cm = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        isConnectedToInternet = activeNetwork != null && activeNetwork.isConnectedOrConnecting();
+        if(isConnectedToInternet){
+            isConnectedToWifi = activeNetwork.getType() == ConnectivityManager.TYPE_WIFI;
+        }
+        Log.e("MainActivity", "The internet status is actual " + isConnectedToInternet);
     }
 
     /**
@@ -111,31 +129,49 @@ public class MainActivity extends ActionBarActivity {
 
             final TextView totalMinutesMain = (TextView) rootview.findViewById(R.id.main_timer);
 
-            // We need to add all the total minutes from the Chronos class
-            ParseQuery<ParseObject> query = new ParseQuery<ParseObject>("Chronos");
-            query.findInBackground(new FindCallback<ParseObject>() {
-                @Override
-                public void done(List<ParseObject> parseObjects, ParseException e) {
+            if(isConnectedToInternet){
+                // We need to add all the total minutes from the Chronos class
+                ParseQuery<ParseObject> query = new ParseQuery<ParseObject>("Chronos");
 
-                    if(e == null){
-                        for(int i = 0; i < parseObjects.size(); i++){
-                            if(i == 0){
-                                amountOfParseObjects = parseObjects.size();
-                            }
-                            totalProductivityMinutes += (double) parseObjects.get(i).getDouble("timeInMinutes");
-                        }
-                        totalMinutesMain.setText(String.valueOf(Math.round(totalProductivityMinutes)));
-                        // We need to call the converter AFTER the parsing is done.
-                        convertTotalProductivityMinutesToRocketts(rootview);
-                        calculateAverageProductivity(rootview);
-
-                    }else{
-                        Log.e("MainActivity", "Something went wrong parsing the Chronos object");
-                        totalMinutesMain.setText("Error");
-                    }
-
+                try{
+                    // If we have internet connection, pin all the data to the local data store first !
+                    List<ParseObject> objects = query.find();
+                    // Save all the data on the local (offline) data store
+                    ParseObject.pinAllInBackground(objects);
+                }catch(ParseException e){
+                    Log.e("MainActivity", "Couldn't fetch online data to local" + e.getCode());
                 }
-            });
+                
+                query.findInBackground(new FindCallback<ParseObject>() {
+                    @Override
+                    public void done(List<ParseObject> parseObjects, ParseException e) {
+
+                        if(e == null){
+                            for(int i = 0; i < parseObjects.size(); i++){
+                                if(i == 0){
+                                    amountOfParseObjects = parseObjects.size();
+                                }
+                                totalProductivityMinutes += (double) parseObjects.get(i).getDouble("timeInMinutes");
+                            }
+                            totalMinutesMain.setText(String.valueOf(Math.round(totalProductivityMinutes)));
+                            // We need to call the converter AFTER the parsing is done.
+                            convertTotalProductivityMinutesToRocketts(rootview);
+                            calculateAverageProductivity(rootview);
+
+                        }else{
+                            Log.e("MainActivity", "Something went wrong parsing the Chronos object");
+                            totalMinutesMain.setText("Error");
+                        }
+
+                    }
+                });
+            }
+            // If Device isn't connected, retrieve data from local datastore
+            else{
+
+            }
+
+
         }
 
         protected void convertTotalProductivityMinutesToRocketts(View rootview){

@@ -2,12 +2,15 @@ package be.ludovicbonivert.rockett.model;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBarActivity;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.parse.ParseObject;
@@ -18,8 +21,6 @@ import be.ludovicbonivert.rockett.R;
 import be.ludovicbonivert.rockett.controller.CustomPerformancesAdapter;
 
 public class PerformancesActivity extends ActionBarActivity {
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +37,6 @@ public class PerformancesActivity extends ActionBarActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
     }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -56,6 +56,11 @@ public class PerformancesActivity extends ActionBarActivity {
             return true;
         }
 
+        if(id == android.R.id.home){
+            NavUtils.navigateUpFromSameTask(this);
+            return true;
+        }
+
         return super.onOptionsItemSelected(item);
     }
 
@@ -66,6 +71,8 @@ public class PerformancesActivity extends ActionBarActivity {
 
         private ParseQueryAdapter<ParseObject> mainAdapter;
         private ListView listView;
+        // holding the current task the user is clicking in the listview
+        int currentTaskId;
 
         public PlaceholderFragment() {
         }
@@ -75,8 +82,30 @@ public class PerformancesActivity extends ActionBarActivity {
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_performances, container, false);
             initPerformancesListView(rootView);
-
+            registerForContextMenu(listView);
             return rootView;
+        }
+
+        public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+
+            super.onCreateContextMenu(menu, v, menuInfo);
+            AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
+            currentTaskId = (int)info.id;
+            menu.add(getString(R.string.delete));
+        }
+
+
+        // User have selected an item. Now delete it
+        @Override
+        public boolean onContextItemSelected(MenuItem item) {
+
+            // First we need to retrieve the parse object from the listview and query the server what's that object there
+            ParseObject selectedobject = (ParseObject)listView.getItemAtPosition(currentTaskId);
+            selectedobject.deleteInBackground();
+            // reload the adapter
+            mainAdapter.loadObjects();
+
+            return super.onContextItemSelected(item);
         }
 
         private void initPerformancesListView(View rootview){
