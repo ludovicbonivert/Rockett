@@ -44,6 +44,15 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        /* change this for another string ressources
+        Configuration config = getResources().getConfiguration();
+        Locale locale = new Locale("nl"); // change this to a different Locale than your device
+        config.locale = locale;
+        Locale.setDefault(locale);
+        getBaseContext().getResources().updateConfiguration(config, getResources().getDisplayMetrics());
+        Log.i("onSelected..", Locale.getDefault().getCountry());
+        */
+
 
 
         if (savedInstanceState == null) {

@@ -23,6 +23,8 @@
     <string name="taskParamForIntent">taskNote</string>
     <string name="performancesActivity">Vos performances</string>
     <string name="delete">Supprimer</string>
+    <string name="login">Connexion</string>
+    <string name="signup">Inscription</string>
 
     <!-- Populate spinner in Timer Settings -->
     <string-array name="timersettings_options">
@@ -33,5 +35,7 @@
     <string name="title_activity_chronometer">ChronometerActivity</string>
     <string name="title_activity_countdown">CountdownActivity</string>
     <string name="title_activity_performances">PerformancesActivity</string>
+    <string name="title_activity_login_or_signup">Login</string>
+    <string name="title_activity_authentificate_user">Authentification</string>
 
 </resources>

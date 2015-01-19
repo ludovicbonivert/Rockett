@@ -35,7 +35,7 @@
     <string name="title_activity_chronometer">ChronometerActivity</string>
     <string name="title_activity_countdown">CountdownActivity</string>
     <string name="title_activity_performances">PerformancesActivity</string>
-    <string name="title_activity_login_or_signup">LoginOrSignupActivity</string>
-    <string name="title_activity_authentificate_user">AuthentificateUserActivity</string>
+    <string name="title_activity_login_or_signup">Login</string>
+    <string name="title_activity_authentificate_user">Authentification</string>
 
 </resources>
