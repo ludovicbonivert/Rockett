@@ -1,6 +1,9 @@
 package be.ludovicbonivert.rockett.model;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.v4.app.Fragment;
@@ -21,10 +24,11 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 import be.ludovicbonivert.rockett.R;
+import be.ludovicbonivert.rockett.controller.ChronometerService;
 
 public class ChronometerActivity extends ActionBarActivity {
 
-    public static final String TAG = "ChronometerActivity";
+    public static final String TAG = ChronometerActivity.class.getSimpleName();
 
 
     @Override
@@ -76,10 +80,17 @@ public class ChronometerActivity extends ActionBarActivity {
         String task;
         long timeWhenPaused = 0;
 
+        // the receiver will receive the broadcast from the service
+        IntentFilter filter;
+        BroadcastReceiver receiver;
+
+
         boolean chronoPaused = false;
 
         public PlaceholderFragment() {
         }
+
+
 
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -89,18 +100,36 @@ public class ChronometerActivity extends ActionBarActivity {
             // receive intent from previous activity, normally settings with the task :))
             intent = getActivity().getIntent();
 
-            chronometer = (Chronometer) rootView.findViewById(R.id.chronometer);
+            filter = new IntentFilter();
+            filter.addAction("Starting chrono");
+            receiver = new BroadcastReceiver() {
+                @Override
+                public void onReceive(Context context, Intent intent) {
+                    // UI update here
+                    // Start automatically the chronometer
+                    chronometer.setBase(SystemClock.elapsedRealtime());
+                    chronometer.start();
+                }
+            };
 
+            getActivity().registerReceiver(receiver, filter);
+            chronometer = (Chronometer) rootView.findViewById(R.id.chronometer);
             createListenerOnPauseButton(rootView);
             createListenerOnStopButton(rootView);
             createListenerOnRestartButton(rootView);
             populateTextViewWithTaskFromIntent(rootView);
 
-            // Start automatically the chronometer
-            chronometer.setBase(SystemClock.elapsedRealtime());
-            chronometer.start();
+            // Start the chronometer service
+            getActivity().startService(new Intent(getActivity().getBaseContext(), ChronometerService.class));
 
             return rootView;
+        }
+
+        @Override
+        public void onDestroy() {
+            super.onDestroy();
+            // When the activity is destroyed, unregister the receiver
+            getActivity().unregisterReceiver(receiver);
         }
 
         private void createListenerOnPauseButton(View rootview){
@@ -146,14 +175,15 @@ public class ChronometerActivity extends ActionBarActivity {
                 @Override
                 public void onClick(View v) {
 
+                    // Stop the chronometer service
+                    getActivity().stopService(new Intent(getActivity().getBaseContext(), ChronometerService.class));
+
                     chronometer.stop();
                     // When the chrono stops ; create ParseObject and return to mainScreen
-
                     ParseObject chrono = new ParseObject("Chronos");
                     // We first need to receive the value from the chronometer
                     long elapsedMillis = SystemClock.elapsedRealtime() - chronometer.getBase();
                     double seconds = elapsedMillis / 1000.0;
-
                     double minutes = Math.round(seconds / 60);
 
                     // to get the result in minutes we need to modulo it to 60 and round to two numbers
@@ -178,13 +208,11 @@ public class ChronometerActivity extends ActionBarActivity {
                         chrono.saveEventually();
                     }
 
-
                     Intent backToMain = new Intent(getActivity(), MainActivity.class);
                     startActivity(backToMain);
 
                 }
             });
-
         }
 
         private void populateTextViewWithTaskFromIntent(View rootview){

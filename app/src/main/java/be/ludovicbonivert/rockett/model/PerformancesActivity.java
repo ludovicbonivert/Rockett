@@ -19,8 +19,6 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseQueryAdapter;
 
-import java.util.List;
-
 import be.ludovicbonivert.rockett.R;
 import be.ludovicbonivert.rockett.controller.CustomPerformancesAdapter;
 
@@ -82,10 +80,6 @@ public class PerformancesActivity extends ActionBarActivity {
         // get the selected object to remove
         static ParseObject selectedobject;
 
-        // We need to update the local data store if there is a remove
-        static boolean removeTheObjectFromTheLocalDataStore = false;
-
-
         public PlaceholderFragment() {
         }
 
@@ -112,11 +106,14 @@ public class PerformancesActivity extends ActionBarActivity {
 
             // First we need to retrieve the parse object from the listview and query the server what's that object there
             selectedobject = (ParseObject)listView.getItemAtPosition(currentTaskId);
+            Log.e("Performances", item.toString());
+            Log.e("Performances", selectedobject.get("task").toString());
 
             if(MainActivity.isConnectedToInternet){
                 try{
                     /* InBackground make the process of deleting slower. */
                     //selectedobject.deleteInBackground();
+
                     selectedobject.unpin();
                     selectedobject.delete();
                 }catch(ParseException e){
@@ -127,34 +124,11 @@ public class PerformancesActivity extends ActionBarActivity {
 
             }else {
                 try {
-                    ParseQuery<ParseObject> query = new ParseQuery<ParseObject>("Chronos").fromLocalDatastore();
-                    List<ParseObject> objects = query.find();
-
-                    if(objects.contains(selectedobject)){
-
-                        Log.e("PerformancesActivity", "Found selectedobject ! " + selectedobject);
-
-
-                    }
-                    query.get(selectedobject.getObjectId()).unpin();
-                    query.get(selectedobject.getObjectId()).deleteEventually();
-
-                    query.fromLocalDatastore().get(selectedobject.getObjectId()).unpin();
-                    query.fromLocalDatastore().get(selectedobject.getObjectId()).deleteInBackground();
-
-                    objects.remove(selectedobject);
-
-
-
                     selectedobject.unpin();
+                    // Delete in background will ensure that the object is deleted from the localDB
+                    selectedobject.deleteInBackground();
                     // Delete eventually will delete the object ones there is a internet connection
                     selectedobject.deleteEventually();
-                    // Delete in background will ensure that the object is deleted from the localDB
-                    //selectedobject.deleteInBackground();
-
-                    removeTheObjectFromTheLocalDataStore = true;
-
-
                 }catch(ParseException e){
                     Log.e("PerformancesActivity", "Could not unpin selected item (offline)" + e.getCode());
                 }
@@ -164,11 +138,6 @@ public class PerformancesActivity extends ActionBarActivity {
             // reload the adapter
             mainAdapter.loadObjects();
             return super.onContextItemSelected(item);
-        }
-
-        public void removeFromLocalDataStore(ParseQuery<ParseObject> query, ParseObject selectedobject){
-
-
         }
 
         private void initPerformancesListView(View rootview){

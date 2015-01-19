@@ -177,49 +177,13 @@ public class MainActivity extends ActionBarActivity {
 
                     }
                 });
-
-
-                /*
-                query.findInBackground(new FindCallback<ParseObject>() {
-                    @Override
-                    public void done(List<ParseObject> parseObjects, ParseException e) {
-
-                        if(e == null){
-                            for(int i = 0; i < parseObjects.size(); i++){
-                                if(i == 0){
-                                    amountOfParseObjects = parseObjects.size();
-                                }
-                                totalProductivityMinutes += (double) parseObjects.get(i).getDouble("timeInMinutes");
-                            }
-                            totalMinutesMain.setText(String.valueOf(Math.round(totalProductivityMinutes)));
-                            // We need to call the converter AFTER the parsing is done.
-                            convertTotalProductivityMinutesToRocketts(rootview);
-                            calculateAverageProductivity(rootview);
-
-                        }else{
-                            Log.e("MainActivity", "Something went wrong parsing the Chronos object");
-                            totalMinutesMain.setText("Error");
-                        }
-
-                    }
-                });
-                */
             }
             // If Device isn't connected, retrieve data from local datastore
             else{
                 ParseQuery<ParseObject> query = new ParseQuery<ParseObject>("Chronos").fromLocalDatastore();
                 try{
-
-                    /*
-                    // Delete all existing data
-                    ParseObject.unpinAllInBackground();
-                    */
-
                     // Query all the objects from the Parse local datastore
                     List<ParseObject> objects = query.find();
-                    // Save all the data on the local (offline) datastore
-                    ParseObject.pinAllInBackground(objects);
-
 
                 }catch(ParseException e){
                     Log.e("MainActivity", "Couldn't fetch online data to local" + e.getCode());

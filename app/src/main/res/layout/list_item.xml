@@ -8,7 +8,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/item_date"
-        android:text="Sample date" />
+        android:text="Sample date"
+        android:textColor="@color/blue_800"
+        android:textSize="12sp" />
 
     <LinearLayout
         android:layout_width="fill_parent"
