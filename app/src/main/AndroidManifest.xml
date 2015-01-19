@@ -9,14 +9,13 @@
     <application
         android:name=".controller.App"
         android:allowBackup="true"
-        android:icon="@drawable/ic_launcher"
+        android:icon="@drawable/logo"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
             android:name=".model.MainActivity"
             android:label="@string/app_name"
-            android:screenOrientation="portrait"
-            >
+            android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -38,12 +37,22 @@
         </activity>
         <activity
             android:name=".model.PerformancesActivity"
-            android:parentActivityName=".model.MainActivity"
-            android:label="@string/title_activity_performances" >
+            android:label="@string/title_activity_performances"
+            android:parentActivityName=".model.MainActivity" >
         </activity>
 
-        <service android:name=".controller.ChronometerService"/>
+        <service android:name=".controller.ChronometerService" />
 
+        <activity
+            android:name=".model.LoginOrSignupActivity"
+            android:label="@string/title_activity_login_or_signup"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Holo.NoActionBar.Fullscreen" >
+        </activity>
+        <activity
+            android:name=".model.AuthentificateUserActivity"
+            android:label="@string/title_activity_authentificate_user" >
+        </activity>
     </application>
 
 </manifest>
