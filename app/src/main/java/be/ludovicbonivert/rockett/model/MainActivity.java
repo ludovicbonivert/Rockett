@@ -7,7 +7,6 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -39,17 +38,6 @@ public class MainActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        /*
-        Configuration config = getResources().getConfiguration();
-        Locale locale = new Locale("nl"); // change this to a different Locale than your device
-        config.locale = locale;
-        Locale.setDefault(locale);
-        getBaseContext().getResources().updateConfiguration(config, getResources().getDisplayMetrics());
-        Log.i("onSelected..", Locale.getDefault().getCountry());
-        */
-
-
 
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
@@ -95,7 +83,6 @@ public class MainActivity extends ActionBarActivity {
         if(isConnectedToInternet){
             isConnectedToWifi = activeNetwork.getType() == ConnectivityManager.TYPE_WIFI;
         }
-        Log.e("MainActivity", "The internet status is actual " + isConnectedToInternet);
     }
 
     /**

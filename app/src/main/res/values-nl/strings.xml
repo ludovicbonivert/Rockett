@@ -29,7 +29,7 @@
     <!-- Populate spinner in Timer Settings -->
     <string-array name="timersettings_options">
         <item>Chronometer</item>
-        <item>Countdown</item>
+        <!-- <item>Countdown</item> -->
     </string-array>
 
     <string name="title_activity_chronometer">ChronometerActivity</string>

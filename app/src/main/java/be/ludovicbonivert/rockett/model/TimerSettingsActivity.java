@@ -120,24 +120,8 @@ public class TimerSettingsActivity extends ActionBarActivity {
 
                             } else if(selectedTimer.equals("Countdown")){
 
-                                Intent intentForStartingCountdown = new Intent(getActivity(), CountdownActivity.class);
-                                startActivity(intentForStartingCountdown);
-
-                                /*
-                                new CountDownTimer(30000, 1000) {
-                                    TextView mTextField = (TextView) rootview.findViewById(R.id.mTextField);
-
-                                    public void onTick(long millisUntilFinished) {
-                                        mTextField.setText("seconds remaining: " + millisUntilFinished / 1000);
-                                    }
-
-                                    public void onFinish() {
-                                        mTextField.setText("done!");
-                                    }
-                                }.start();
-                                */
-
-
+                                //Intent intentForStartingCountdown = new Intent(getActivity(), CountdownActivity.class);
+                                //startActivity(intentForStartingCountdown);
                             }
 
                         }

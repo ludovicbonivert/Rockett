@@ -70,11 +70,9 @@ public class PerformancesActivity extends ActionBarActivity {
     public static class PerformancesFragment extends Fragment {
 
         private ListView listView;
-        //private ParseQueryAdapter<ParseObject> mainAdapter;
         List<Chronos> chronos = Chronos.listAll(Chronos.class);
         // Adapter needs context so getActivity is maybe not the good one to give
         private CustomPerformancesAdapter mainAdapter;
-
         Runnable run;
 
         // holding the current task the user is clicking in the listview
@@ -108,7 +106,6 @@ public class PerformancesActivity extends ActionBarActivity {
         public boolean onContextItemSelected(MenuItem item) {
 
             // First we need to retrieve the parse object from the listview and query the server what's that object there
-            //selectedobject = (ParseObject)listView.getItemAtPosition(currentTaskId);
             selectedobject = (Chronos)listView.getItemAtPosition(currentTaskId);
 
             // reload the adapter. I implemented a runOnUiThread method, else this is not live refreshing
@@ -126,10 +123,6 @@ public class PerformancesActivity extends ActionBarActivity {
 
             };
             getActivity().runOnUiThread(run);
-
-
-            //mainAdapter.loadObjects();
-
             return super.onContextItemSelected(item);
         }
 
@@ -138,7 +131,6 @@ public class PerformancesActivity extends ActionBarActivity {
             // init ListView
             listView = (ListView) rootview.findViewById(R.id.perf_listView);
             listView.setAdapter(mainAdapter);
-
 
         }
 

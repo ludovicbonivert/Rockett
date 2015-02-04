@@ -2,19 +2,24 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="be.ludovicbonivert.rockett"
     xmlns:tools="http://schemas.android.com/tools"
+    android:versionCode="1"
+    android:versionName="1.0"
     >
 
     <!-- Adding internet connection -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-sdk android:minSdkVersion="14"/>
 
     <application
         android:name="com.orm.SugarApp"
+
         tools:replace="android:icon"
         android:allowBackup="true"
         android:icon="@drawable/r_logo"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme"
+        >
 
         <meta-data android:name="DATABASE" android:value="sugar_rockett.db"/>
         <meta-data android:name="VERSION" android:value="1"/>

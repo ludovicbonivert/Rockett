@@ -7,6 +7,9 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 
 import be.ludovicbonivert.rockett.R;
@@ -26,6 +29,22 @@ public class CustomPerformancesAdapter extends BaseAdapter{
         this.context = context;
         this.items = items;
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        Collections.sort(items, new Comparator<Chronos>() {
+            @Override
+            public int compare(Chronos object1, Chronos object2) {
+                Date a = object1.getCreatedAt();
+                Date b = object2.getCreatedAt();
+
+                if(a.after(b)){
+                    return -1;
+                }else if(a.equals(b)){
+                    return 0;
+                }else{
+                    return 1;
+                }
+
+            }
+        });
     }
 
     @Override

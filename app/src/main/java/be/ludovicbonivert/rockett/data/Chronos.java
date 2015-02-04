@@ -12,7 +12,7 @@ import java.util.Date;
  * I use the same data fields as the initial ParseObject
  */
 
-public class Chronos extends SugarRecord<Chronos> {
+public class Chronos extends SugarRecord<Chronos> implements Comparable<Chronos>{
 
     Date createdAt;
     String dateFormatted;
@@ -78,5 +78,11 @@ public class Chronos extends SugarRecord<Chronos> {
 
     public void setTimeInMinutes(double timeInMinutes) {
         this.timeInMinutes = timeInMinutes;
+    }
+
+
+    @Override
+    public int compareTo(Chronos another) {
+        return getDateFormatted().compareTo(another.getDateFormatted());
     }
 }
