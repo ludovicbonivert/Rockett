@@ -75,6 +75,7 @@ public class PerformancesActivity extends ActionBarActivity {
         // Adapter needs context so getActivity is maybe not the good one to give
         private CustomPerformancesAdapter mainAdapter;
 
+        Runnable run;
 
         // holding the current task the user is clicking in the listview
         int currentTaskId;
@@ -98,7 +99,7 @@ public class PerformancesActivity extends ActionBarActivity {
 
             super.onCreateContextMenu(menu, v, menuInfo);
             AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
-            currentTaskId = (int)info.id;
+            currentTaskId = info.position;
             menu.add(getString(R.string.delete));
         }
 
@@ -110,10 +111,22 @@ public class PerformancesActivity extends ActionBarActivity {
             //selectedobject = (ParseObject)listView.getItemAtPosition(currentTaskId);
             selectedobject = (Chronos)listView.getItemAtPosition(currentTaskId);
 
-            selectedobject.delete();
+            // reload the adapter. I implemented a runOnUiThread method, else this is not live refreshing
+            run = new Runnable(){
+                public void run(){
+                    // reload content
+                    selectedobject.delete();
+                    chronos.clear();
+                    chronos.addAll(Chronos.listAll(Chronos.class));
+                    mainAdapter.notifyDataSetChanged();
+                    listView.invalidateViews();
+                    listView.refreshDrawableState();
 
-            // reload the adapter
-            mainAdapter.notifyDataSetChanged();
+                }
+
+            };
+            getActivity().runOnUiThread(run);
+
 
             //mainAdapter.loadObjects();
 
@@ -121,42 +134,11 @@ public class PerformancesActivity extends ActionBarActivity {
         }
 
         private void initPerformancesListView(View rootview){
-            /*
-            if(MainActivity.isConnectedToInternet){
-
-                // init main ParseQueryAdapter
-                mainAdapter = new CustomPerformancesAdapter(getActivity(), new ParseQueryAdapter.QueryFactory<ParseObject>() {
-                    @Override
-                    public ParseQuery<ParseObject> create() {
-                        ParseQuery<ParseObject> query = new ParseQuery<ParseObject>("Chronos");
-                        return query;
-                    }
-                });
-            }else {
-                // init main ParseQueryAdapter
-                mainAdapter = new CustomPerformancesAdapter(getActivity(), new ParseQueryAdapter.QueryFactory<ParseObject>() {
-                    @Override
-                    public ParseQuery<ParseObject> create() {
-                        ParseQuery<ParseObject> query = new ParseQuery<ParseObject>("Chronos").fromLocalDatastore();
-                        return query;
-                    }
-                });
-                */
-
-
-
             mainAdapter = new CustomPerformancesAdapter(getActivity(), chronos);
-
-
-
-            //mainAdapter.setTextKey("task");
-            // Do we really need to show the seconds ? mainAdapter.setTextKey("timeInSeconds");
-            //mainAdapter.setTextKey("timeInMinutes");
-
             // init ListView
             listView = (ListView) rootview.findViewById(R.id.perf_listView);
             listView.setAdapter(mainAdapter);
-            //mainAdapter.loadObjects();
+
 
         }
 
