@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -14,13 +13,11 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import com.parse.ParseException;
-import com.parse.ParseObject;
-import com.parse.ParseQuery;
-import com.parse.ParseQueryAdapter;
+import java.util.List;
 
 import be.ludovicbonivert.rockett.R;
 import be.ludovicbonivert.rockett.controller.CustomPerformancesAdapter;
+import be.ludovicbonivert.rockett.data.Chronos;
 
 public class PerformancesActivity extends ActionBarActivity {
 
@@ -31,7 +28,7 @@ public class PerformancesActivity extends ActionBarActivity {
 
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container, new PlaceholderFragment())
+                    .add(R.id.container, new PerformancesFragment())
                     .commit();
         }
         setTitle(getString(R.string.performancesActivity));
@@ -70,17 +67,22 @@ public class PerformancesActivity extends ActionBarActivity {
     /**
      * A placeholder fragment containing a simple view.
      */
-    public static class PlaceholderFragment extends Fragment {
+    public static class PerformancesFragment extends Fragment {
 
-        private ParseQueryAdapter<ParseObject> mainAdapter;
         private ListView listView;
+        //private ParseQueryAdapter<ParseObject> mainAdapter;
+        List<Chronos> chronos = Chronos.listAll(Chronos.class);
+        // Adapter needs context so getActivity is maybe not the good one to give
+        private CustomPerformancesAdapter mainAdapter;
+
+
         // holding the current task the user is clicking in the listview
         int currentTaskId;
 
         // get the selected object to remove
-        static ParseObject selectedobject;
+        static Chronos selectedobject;
 
-        public PlaceholderFragment() {
+        public PerformancesFragment() {
         }
 
         @Override
@@ -105,42 +107,21 @@ public class PerformancesActivity extends ActionBarActivity {
         public boolean onContextItemSelected(MenuItem item) {
 
             // First we need to retrieve the parse object from the listview and query the server what's that object there
-            selectedobject = (ParseObject)listView.getItemAtPosition(currentTaskId);
-            Log.e("Performances", item.toString());
-            Log.e("Performances", selectedobject.get("task").toString());
+            //selectedobject = (ParseObject)listView.getItemAtPosition(currentTaskId);
+            selectedobject = (Chronos)listView.getItemAtPosition(currentTaskId);
 
-            if(MainActivity.isConnectedToInternet){
-                try{
-                    /* InBackground make the process of deleting slower. */
-                    //selectedobject.deleteInBackground();
-
-                    selectedobject.unpin();
-                    selectedobject.delete();
-                }catch(ParseException e){
-                    Log.e("PerformancesActivity", "Could not unpin selected item (online)" + e.getCode());
-                    e.getCode();
-                }
-                mainAdapter.notifyDataSetChanged();
-
-            }else {
-                try {
-                    selectedobject.unpin();
-                    // Delete in background will ensure that the object is deleted from the localDB
-                    selectedobject.deleteInBackground();
-                    // Delete eventually will delete the object ones there is a internet connection
-                    selectedobject.deleteEventually();
-                }catch(ParseException e){
-                    Log.e("PerformancesActivity", "Could not unpin selected item (offline)" + e.getCode());
-                }
-                mainAdapter.notifyDataSetChanged();
-            }
+            selectedobject.delete();
 
             // reload the adapter
-            mainAdapter.loadObjects();
+            mainAdapter.notifyDataSetChanged();
+
+            //mainAdapter.loadObjects();
+
             return super.onContextItemSelected(item);
         }
 
         private void initPerformancesListView(View rootview){
+            /*
             if(MainActivity.isConnectedToInternet){
 
                 // init main ParseQueryAdapter
@@ -160,17 +141,22 @@ public class PerformancesActivity extends ActionBarActivity {
                         return query;
                     }
                 });
+                */
 
-            }
 
-            mainAdapter.setTextKey("task");
+
+            mainAdapter = new CustomPerformancesAdapter(getActivity(), chronos);
+
+
+
+            //mainAdapter.setTextKey("task");
             // Do we really need to show the seconds ? mainAdapter.setTextKey("timeInSeconds");
-            mainAdapter.setTextKey("timeInMinutes");
+            //mainAdapter.setTextKey("timeInMinutes");
 
             // init ListView
             listView = (ListView) rootview.findViewById(R.id.perf_listView);
             listView.setAdapter(mainAdapter);
-            mainAdapter.loadObjects();
+            //mainAdapter.loadObjects();
 
         }
 

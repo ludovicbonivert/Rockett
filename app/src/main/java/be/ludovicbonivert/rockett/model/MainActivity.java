@@ -16,14 +16,10 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.parse.FindCallback;
-import com.parse.ParseException;
-import com.parse.ParseObject;
-import com.parse.ParseQuery;
-
 import java.util.List;
 
 import be.ludovicbonivert.rockett.R;
+import be.ludovicbonivert.rockett.data.Chronos;
 
 
 /*
@@ -109,7 +105,7 @@ public class MainActivity extends ActionBarActivity {
 
         double totalProductivityMinutes = 0;
         // The amountOfParseObjects will help me calculating the average productivity
-        int amountOfParseObjects;
+        int amountOfChronosObjects;
 
         public TimerInfoFragment() {
 
@@ -141,104 +137,37 @@ public class MainActivity extends ActionBarActivity {
 
             final TextView totalMinutesMain = (TextView) rootview.findViewById(R.id.main_timer);
 
-
-            if(isConnectedToInternet){
-                ParseQuery<ParseObject> query = new ParseQuery<ParseObject>("Chronos");
-
-                // replace content of local datastore to the actual up to date content
-
-                try{
-
-                    // If we have internet connection, pin all the data to the local data store first !
-                    List<ParseObject> objects = query.find();
-                    // Delete all existing data
-                    ParseObject.unpinAll();
-                    //ParseObject.unpinAllInBackground();
-                    // Save all the data on the local (offline) data store
-                    ParseObject.pinAll(objects);
-
-
-                }catch(ParseException e){
-                    Log.e("MainActivity", "Couldn't fetch online data to local" + e.getCode());
+            // Using a local datastore, we dont care now if connected or not
+            List<Chronos> chronos = Chronos.listAll(Chronos.class);
+            for(int i = 0, j = chronos.size(); i < j; i++){
+                if (i == 0) {
+                    amountOfChronosObjects = chronos.size();
                 }
-
-                query.findInBackground(new FindCallback<ParseObject>() {
-                    @Override
-                    public void done(List<ParseObject> parseObjects, ParseException e) {
-
-                        if (e == null) {
-
-                            for (int i = 0; i < parseObjects.size(); i++) {
-                                if (i == 0) {
-                                    amountOfParseObjects = parseObjects.size();
-                                }
-                                totalProductivityMinutes += (double) parseObjects.get(i).getDouble("timeInMinutes");
-                            }
-                            totalMinutesMain.setText(String.valueOf(Math.round(totalProductivityMinutes)));
-                            // We need to call the converter AFTER the parsing is done.
-                            convertTotalProductivityMinutesToRocketts(rootview);
-                            calculateAverageProductivity(rootview);
-
-                        } else {
-                            Log.e("MainActivity", "Something went wrong parsing the Chronos object");
-                            totalMinutesMain.setText("Error");
-                        }
-
-                    }
-                });
+                totalProductivityMinutes += chronos.get(i).getTimeInMinutes();
             }
-            // If Device isn't connected, retrieve data from local datastore
-            else{
-                ParseQuery<ParseObject> query = new ParseQuery<ParseObject>("Chronos").fromLocalDatastore();
-                try{
-                    // Query all the objects from the Parse local datastore
-                    List<ParseObject> objects = query.find();
 
-                }catch(ParseException e){
-                    Log.e("MainActivity", "Couldn't fetch online data to local" + e.getCode());
-                }
-
-                // Query the local data store
-                query.fromLocalDatastore().findInBackground(new FindCallback<ParseObject>() {
-                    // After one item has been deleted from the performancesList we need to reload the data first with newer data
-                    @Override
-                    public void done(List<ParseObject> parseObjects, ParseException e) {
-                        if(e == null){
-                            for(int i = 0; i < parseObjects.size(); i++){
-                                if(i == 0){
-                                    amountOfParseObjects = parseObjects.size();
-                                }
-                                totalProductivityMinutes += (double) parseObjects.get(i).getDouble("timeInMinutes");
-                            }
-                            totalMinutesMain.setText(String.valueOf(Math.round(totalProductivityMinutes)));
-                            // We need to call the converter AFTER the parsing is done.
-                            convertTotalProductivityMinutesToRocketts(rootview);
-                            calculateAverageProductivity(rootview);
-
-                        }else{
-                            Log.e("MainActivity", "Something went wrong parsing the Chronos object");
-                            totalMinutesMain.setText("Error");
-                        }
-
-                    }
-                });
+            totalMinutesMain.setText(String.valueOf(Math.round(totalProductivityMinutes)));
+            // We need to call the converter AFTER the parsing is done.
+            convertTotalProductivityMinutesToRocketts(rootview);
+            calculateAverageProductivity(rootview);
 
             }
+
+            protected void convertTotalProductivityMinutesToRocketts(View rootview){
+
+                TextView totalRocketts = (TextView) rootview.findViewById(R.id.total_rocketts);
+                totalRocketts.setText(String.valueOf(Math.round(totalProductivityMinutes) / 25));
+
+            }
+
+            protected void calculateAverageProductivity(View rootview){
+
+                TextView averageProductivity = (TextView) rootview.findViewById(R.id.average_productivity);
+                averageProductivity.setText(String.valueOf(Math.round(totalProductivityMinutes / amountOfChronosObjects)));
+
+            }
+
         }
-        protected void convertTotalProductivityMinutesToRocketts(View rootview){
-
-            TextView totalRocketts = (TextView) rootview.findViewById(R.id.total_rocketts);
-            totalRocketts.setText(String.valueOf(Math.round(totalProductivityMinutes) / 25));
-
-        }
-
-        protected void calculateAverageProductivity(View rootview){
-
-            TextView averageProductivity = (TextView) rootview.findViewById(R.id.average_productivity);
-            averageProductivity.setText(String.valueOf(Math.round(totalProductivityMinutes / amountOfParseObjects)));
-
-        }
-
 
     }
-}
+

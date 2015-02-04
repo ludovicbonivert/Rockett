@@ -11,8 +11,6 @@ public class ChronometerService extends Service{
 
     private final static String TAG = ChronometerService.class.getSimpleName();
 
-
-
     @Override
     public IBinder onBind(Intent intent) {
         return null;

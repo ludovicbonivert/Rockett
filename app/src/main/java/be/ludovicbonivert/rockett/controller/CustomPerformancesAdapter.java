@@ -1,77 +1,75 @@
 package be.ludovicbonivert.rockett.controller;
 
 import android.content.Context;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.parse.ParseObject;
-import com.parse.ParseQueryAdapter;
-
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.List;
 
 import be.ludovicbonivert.rockett.R;
-import be.ludovicbonivert.rockett.model.MainActivity;
+import be.ludovicbonivert.rockett.data.Chronos;
 
 /**
  * Created by LudovicBonivert on 17/01/15.
  */
-public class CustomPerformancesAdapter extends ParseQueryAdapter<ParseObject>{
+public class CustomPerformancesAdapter extends BaseAdapter{
 
-    public CustomPerformancesAdapter(Context context, QueryFactory<ParseObject> queryFactory){
+    Context context;
+    List<Chronos> items;
+    LayoutInflater inflater;
 
-        // Use the QueryFactory to construct a PQA that will use the custom view
-        super(context, queryFactory);
-
-
+    public CustomPerformancesAdapter(Context context, List<Chronos> items){
+        super();
+        this.context = context;
+        this.items = items;
+        inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
-
-    // customize the layout by overiding getItemView
-
+    @Override
+    public Object getItem(int position) {
+        return items.get(position);
+    }
 
     @Override
-    public View getItemView(ParseObject object, View v, ViewGroup parent) {
+    public long getItemId(int position) {
+        return 0;
+    }
 
-        if(v == null){
-            v = View.inflate(getContext(), R.layout.list_item, null);
+    @Override
+    public int getCount() {
+        return items.size();
+    }
+
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
+        // Create the cell and populate it with the element from the list
+        if(convertView == null){
+            convertView = inflater.inflate(R.layout.list_item, parent, false);
         }
 
-        super.getItemView(object, v, parent);
-
         // Add the timer view
-        TextView timerTextView = (TextView) v.findViewById(R.id.item_timer);
+        TextView timerTextView = (TextView) convertView.findViewById(R.id.item_timer);
 
-        if(object.getNumber("timeInSeconds").intValue() < 60){
-            timerTextView.setText(Math.round(object.getNumber("timeInSeconds").doubleValue()) + " sec");
+        if(items.get(position).getTimeInSeconds() < 60){
+            timerTextView.setText(Math.round(items.get(position).getTimeInSeconds()) + " sec");
 
         } else{
-            Math.round(object.getNumber("timeInMinutes").doubleValue());
-            timerTextView.setText(Math.round(object.getNumber("timeInMinutes").doubleValue()) + " min");
+            Math.round(items.get(position).getTimeInMinutes());
+            timerTextView.setText(Math.round(items.get(position).getTimeInMinutes()) + " min");
 
         }
 
         // Add the task view
-        TextView taskTextView = (TextView) v.findViewById(R.id.item_task);
-        taskTextView.setText(object.getString("task"));
+        TextView taskTextView = (TextView) convertView.findViewById(R.id.item_task);
+        taskTextView.setText(items.get(position).getTask());
 
         // Add the date view
-        TextView dateTextView = (TextView) v.findViewById(R.id.item_date);
+        TextView dateTextView = (TextView) convertView.findViewById(R.id.item_date);
+        dateTextView.setText(items.get(position).getDateFormatted());
 
-        // If we have an internetConnection we can get the online timestamp
-        if(MainActivity.isConnectedToInternet){
-            Date date = object.getCreatedAt();
-            // format the received date to a shorter timestamp
-            SimpleDateFormat formater = new SimpleDateFormat("M/d/yyyy");
-            String datestring = formater.format(date);
-            dateTextView.setText(datestring);
-        }
-        // If its not the case we take the custom date
-        else{
-            String datestring = object.getString("creationDate");
-            dateTextView.setText(datestring);
-        }
-        return v;
+        return convertView;
     }
 }

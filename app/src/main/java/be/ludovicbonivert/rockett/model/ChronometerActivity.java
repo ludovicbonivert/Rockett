@@ -17,14 +17,9 @@ import android.widget.Button;
 import android.widget.Chronometer;
 import android.widget.TextView;
 
-import com.parse.ParseObject;
-
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-
 import be.ludovicbonivert.rockett.R;
 import be.ludovicbonivert.rockett.controller.ChronometerService;
+import be.ludovicbonivert.rockett.data.Chronos;
 
 public class ChronometerActivity extends ActionBarActivity {
 
@@ -180,33 +175,43 @@ public class ChronometerActivity extends ActionBarActivity {
 
                     chronometer.stop();
                     // When the chrono stops ; create ParseObject and return to mainScreen
-                    ParseObject chrono = new ParseObject("Chronos");
+                    //ParseObject chrono = new ParseObject("Chronos");
+                    Chronos chrono = new Chronos();
                     // We first need to receive the value from the chronometer
                     long elapsedMillis = SystemClock.elapsedRealtime() - chronometer.getBase();
                     double seconds = elapsedMillis / 1000.0;
                     double minutes = Math.round(seconds / 60);
 
                     // to get the result in minutes we need to modulo it to 60 and round to two numbers
-                    chrono.put("timeInSeconds", seconds);
-                    chrono.put("timeInMinutes", minutes);
+                    //chrono.put("timeInSeconds", seconds);
+                    //chrono.put("timeInMinutes", minutes);
+                    chrono.setTimeInSeconds(seconds);
+                    chrono.setTimeInMinutes(minutes);
+
                     // Take task string and set it into the parseObject
-                    chrono.put("task", task);
+                    //chrono.put("task", task);
+
+                    chrono.setTask(task);
 
                     // Bug with createdAt when offline, copying that value to a custom date row
-                    DateFormat df = new SimpleDateFormat("EEE, d MMM yyyy, HH:mm");
-                    String todayAndNow = df.format(Calendar.getInstance().getTime());
+                    //DateFormat df = new SimpleDateFormat("EEE, d MMM yyyy, HH:mm");
+                    //String todayAndNow = df.format(Calendar.getInstance().getTime());
 
-                    chrono.put("creationDate", todayAndNow);
+                    //chrono.put("creationDate", todayAndNow);
+                    // DATE IS AUTOMATICALLY CREATED ?
 
                     /* Save in background will save it to parse. That can only happen if there is an internet connection */
                     //
-                    chrono.pinInBackground();
+                    //chrono.pinInBackground();
+                    chrono.save();
 
+                    /*
                     if(MainActivity.isConnectedToInternet){
                         chrono.saveInBackground();
                     }else{
                         chrono.saveEventually();
                     }
+                    */
 
                     Intent backToMain = new Intent(getActivity(), MainActivity.class);
                     startActivity(backToMain);
