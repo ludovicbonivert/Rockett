@@ -2,20 +2,6 @@
 <items version="2" >
 
     <item
-        jar="/Users/LudovicBonivert/AndroidStudioProjects/Rockett/app/build/intermediates/exploded-aar/com.android.support/support-v4/21.0.3/libs/internal_impl-21.0.3.jar"
-        jumboMode="false"
-        revision="21.1.2"
-        sha1="01ec05bfbafcc07646ba813000bf2ef11742dd03">
-        <dex dex="/Users/LudovicBonivert/AndroidStudioProjects/Rockett/app/build/intermediates/pre-dexed/debug/internal_impl-21.0.3-84d379fe8ee634279eeecc874b61af5de4b4187a.jar" />
-    </item>
-    <item
-        jar="/Users/LudovicBonivert/Documents/Androidsdk/extras/android/m2repository/com/android/support/support-annotations/21.0.3/support-annotations-21.0.3.jar"
-        jumboMode="false"
-        revision="21.1.2"
-        sha1="4b74cefe1f0c1b819e7260c8627a14674e37fd35">
-        <dex dex="/Users/LudovicBonivert/AndroidStudioProjects/Rockett/app/build/intermediates/pre-dexed/debug/support-annotations-21.0.3-4082d686e524edb78f6601d4abef63fe5720817f.jar" />
-    </item>
-    <item
         jar="/Users/LudovicBonivert/AndroidStudioProjects/Rockett/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.3/classes.jar"
         jumboMode="false"
         revision="21.1.2"
@@ -30,18 +16,39 @@
         <dex dex="/Users/LudovicBonivert/AndroidStudioProjects/Rockett/app/build/intermediates/pre-dexed/debug/Parse-1.8.1-708765aaf5f95c6c24b6bf259a2d4611afc5e249.jar" />
     </item>
     <item
-        jar="/Users/LudovicBonivert/.gradle/caches/modules-2/files-2.1/com.parse.bolts/bolts-android/1.1.4/129874135e6081269ace2312092031558865de12/bolts-android-1.1.4.jar"
-        jumboMode="false"
-        revision="21.1.2"
-        sha1="129874135e6081269ace2312092031558865de12">
-        <dex dex="/Users/LudovicBonivert/AndroidStudioProjects/Rockett/app/build/intermediates/pre-dexed/debug/bolts-android-1.1.4-3103be5042cb7f6bb95217661342854b71ecd096.jar" />
-    </item>
-    <item
         jar="/Users/LudovicBonivert/AndroidStudioProjects/Rockett/app/build/intermediates/exploded-aar/com.android.support/support-v4/21.0.3/classes.jar"
         jumboMode="false"
         revision="21.1.2"
         sha1="2c91c949a45a21cdecf26e03951e46c7beec9ad8">
         <dex dex="/Users/LudovicBonivert/AndroidStudioProjects/Rockett/app/build/intermediates/pre-dexed/debug/classes-c0bc009f817ffdceceb67def427c38ffbcd486c6.jar" />
+    </item>
+    <item
+        jar="/Users/LudovicBonivert/AndroidStudioProjects/Rockett/app/build/intermediates/exploded-aar/com.github.satyan/sugar/1.3/classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="07e07903922250dabf50c7d131d6fa069a050305">
+        <dex dex="/Users/LudovicBonivert/AndroidStudioProjects/Rockett/app/build/intermediates/pre-dexed/debug/classes-51ce975abef931ce44911fca8c9491055acdf6ef.jar" />
+    </item>
+    <item
+        jar="/Users/LudovicBonivert/AndroidStudioProjects/Rockett/app/build/intermediates/exploded-aar/com.android.support/support-v4/21.0.3/libs/internal_impl-21.0.3.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="01ec05bfbafcc07646ba813000bf2ef11742dd03">
+        <dex dex="/Users/LudovicBonivert/AndroidStudioProjects/Rockett/app/build/intermediates/pre-dexed/debug/internal_impl-21.0.3-84d379fe8ee634279eeecc874b61af5de4b4187a.jar" />
+    </item>
+    <item
+        jar="/Users/LudovicBonivert/Documents/Androidsdk/extras/android/m2repository/com/android/support/support-annotations/21.0.3/support-annotations-21.0.3.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="4b74cefe1f0c1b819e7260c8627a14674e37fd35">
+        <dex dex="/Users/LudovicBonivert/AndroidStudioProjects/Rockett/app/build/intermediates/pre-dexed/debug/support-annotations-21.0.3-4082d686e524edb78f6601d4abef63fe5720817f.jar" />
+    </item>
+    <item
+        jar="/Users/LudovicBonivert/.gradle/caches/modules-2/files-2.1/com.parse.bolts/bolts-android/1.1.4/129874135e6081269ace2312092031558865de12/bolts-android-1.1.4.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="129874135e6081269ace2312092031558865de12">
+        <dex dex="/Users/LudovicBonivert/AndroidStudioProjects/Rockett/app/build/intermediates/pre-dexed/debug/bolts-android-1.1.4-3103be5042cb7f6bb95217661342854b71ecd096.jar" />
     </item>
 
 </items>
