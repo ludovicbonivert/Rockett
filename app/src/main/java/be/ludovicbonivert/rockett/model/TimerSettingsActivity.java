@@ -118,10 +118,11 @@ public class TimerSettingsActivity extends ActionBarActivity {
                                 startActivity(intentForStartingChronometer);
 
 
-                            } else if(selectedTimer.equals("Countdown")){
+                            } else if(selectedTimer.equals("Pomodoro")){
 
-                                //Intent intentForStartingCountdown = new Intent(getActivity(), CountdownActivity.class);
-                                //startActivity(intentForStartingCountdown);
+                                Intent intentForStartingCountdown = new Intent(getActivity(), CountdownActivity.class);
+                                intentForStartingCountdown.putExtra("taskNote", getTaskOfSettingsField(rootview));
+                                startActivity(intentForStartingCountdown);
                             }
 
                         }

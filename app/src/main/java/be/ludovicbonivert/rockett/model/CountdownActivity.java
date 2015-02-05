@@ -1,6 +1,15 @@
 package be.ludovicbonivert.rockett.model;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.media.Ringtone;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.CountDownTimer;
+import android.os.SystemClock;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
@@ -8,8 +17,15 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.Chronometer;
+import android.widget.TextView;
+
+import java.util.concurrent.TimeUnit;
 
 import be.ludovicbonivert.rockett.R;
+import be.ludovicbonivert.rockett.controller.CountdownService;
+import be.ludovicbonivert.rockett.data.Chronos;
 
 public class CountdownActivity extends ActionBarActivity {
 
@@ -19,10 +35,12 @@ public class CountdownActivity extends ActionBarActivity {
         setContentView(R.layout.activity_countdown);
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container, new PlaceholderFragment())
+                    .add(R.id.container, new CountdownFragment())
                     .commit();
         }
+        setTitle("Rocketting");
     }
+
 
 
     @Override
@@ -50,16 +68,140 @@ public class CountdownActivity extends ActionBarActivity {
     /**
      * A placeholder fragment containing a simple view.
      */
-    public static class PlaceholderFragment extends Fragment {
+    public static class CountdownFragment extends Fragment {
 
-        public PlaceholderFragment() {
+        private Chronometer chronoCountdown;
+        private Intent intent;
+        private boolean countdownPaused = false;
+        private long timeWhenPaused = 0;
+        private String task;
+        // the receiver will receive the broadcast from the service
+        public IntentFilter filter;
+        public BroadcastReceiver receiver;
+        public Countdown countdown;
+
+
+
+
+        public CountdownFragment() {
         }
 
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_countdown, container, false);
+            chronoCountdown = (Chronometer) rootView.findViewById(R.id.chronometerCountdown);
+
+            // 25 minutes = Pomodoro technique = 1500000 Milliseconds
+            // 1 minute = 60000 mms
+            countdown = new Countdown(10000, 1000);
+            intent = getActivity().getIntent();
+            filter = new IntentFilter();
+            filter.addAction("Starting countdown");
+            receiver = new BroadcastReceiver() {
+                @Override
+                public void onReceive(Context context, Intent intent) {
+                    // UI update here
+                    // Start automatically the countdown timer
+                    // Not working for the moment
+
+                }
+            };
+
+            countdown.start();
+            getActivity().registerReceiver(receiver, filter);
+            //createListenerOnPauseButton(rootView);
+            createListenerOnStopButton(rootView);
+            //createListenerOnRestartButton(rootView);
+            populateTextViewWithTaskFromIntent(rootView);
+
+            // Start the countdown service
+            getActivity().startService(new Intent(getActivity().getBaseContext(), CountdownService.class));
+
             return rootView;
         }
+
+        @Override
+        public void onDestroy() {
+            super.onDestroy();
+            // When the activity is destroyed, unregister the receiver
+            getActivity().unregisterReceiver(receiver);
+        }
+
+        public void createListenerOnStopButton(View rootView){
+            Button stopbtn = (Button) rootView.findViewById(R.id.btn_stopCountdown);
+            stopbtn.setOnClickListener(new View.OnClickListener(){
+                @Override
+                public void onClick(View v) {
+
+                    // Stop the countdown service
+                    getActivity().stopService(new Intent(getActivity().getBaseContext(), CountdownService.class));
+                    chronoCountdown.stop();
+                    countdown.cancel();
+
+                    Chronos chrono = new Chronos();
+                    long elapsedMillis = SystemClock.elapsedRealtime() - chronoCountdown.getBase();
+                    double seconds = elapsedMillis / 1000.0;
+                    double minutes = Math.round(seconds/60);
+
+                    chrono.setTimeInSeconds(seconds);
+                    chrono.setTimeInMinutes(minutes);
+                    chrono.setTask(task);
+
+                    chrono.save();
+                    Intent backToMain = new Intent(getActivity(), MainActivity.class);
+                    startActivity(backToMain);
+
+
+                }
+            });
+
+        }
+        public void populateTextViewWithTaskFromIntent(View rootView){
+            task = intent.getExtras().getString(getString(R.string.taskParamForIntent));
+            TextView taskTextView = (TextView) rootView.findViewById(R.id.taskCountdown);
+            taskTextView.setText(task);
+
+
+        }
+
+        public class Countdown extends CountDownTimer{
+            public Countdown(long millisInFuture, long countDownInterval) {
+                super(millisInFuture, countDownInterval);
+            }
+
+
+            @Override
+            public void onTick(long millisUntilFinished) {
+                long millis = millisUntilFinished;
+                String hms = String.format("%02d:%02d:%02d", TimeUnit.MILLISECONDS.toHours(millis),
+                        TimeUnit.MILLISECONDS.toMinutes(millis) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(millis)),
+                        TimeUnit.MILLISECONDS.toSeconds(millis) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millis))
+                );
+                chronoCountdown.setText(hms);
+            }
+
+            @Override
+            public void onFinish() {
+                // ALARM
+                Chronos chrono = new Chronos();
+                chrono.setTimeInSeconds(60);
+                chrono.setTimeInMinutes(1);
+                chrono.setTask(task);
+                chrono.save();
+
+                Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+                Ringtone r = RingtoneManager.getRingtone(getActivity().getApplicationContext(), notification);
+                r.play();
+
+                Intent backToMain = new Intent (getActivity(), MainActivity.class);
+                startActivity(backToMain);
+
+                // Same as clicking on stop btn
+            }
+        }
+
     }
+
+
 }

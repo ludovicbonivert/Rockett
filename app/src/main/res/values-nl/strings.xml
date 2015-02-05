@@ -25,11 +25,14 @@
     <string name="delete">Verwijderen</string>
     <string name="login">Log in</string>
     <string name="signup">Registreren</string>
+    <string name="askConfirmation">Bent u zeker dat u al de data wilt verwijderen ?</string>
+    <string name="acceptWipe">Ja</string>
+    <string name="denieWipe">Nee</string>
 
     <!-- Populate spinner in Timer Settings -->
     <string-array name="timersettings_options">
         <item>Chronometer</item>
-        <!-- <item>Countdown</item> -->
+        <item>Pomodoro</item>
     </string-array>
 
     <string name="title_activity_chronometer">ChronometerActivity</string>

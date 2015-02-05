@@ -16,7 +16,7 @@
     <string name="txt_rockett_the_world">Rockett the world</string>
     <string name="txt_view_performances">Voir performances</string>
     <string name="txt_add_note">Ajouter tâche</string>
-    <string name="txt_task_hint">Qu\'elle tâche aller vous effectuer ?</string>
+    <string name="txt_task_hint">Qu\'elle tâche allez vous effectuer ?</string>
     <string name="title_activity_timer_settings">Paramètres Timer</string>
     <string name="working_on">Travaille à</string>
     <string name="task_for_empty_intent">créer un meilleur monde</string>
@@ -25,11 +25,14 @@
     <string name="delete">Supprimer</string>
     <string name="login">Connexion</string>
     <string name="signup">Inscription</string>
+    <string name="askConfirmation">Êtes-vous sûr de vouloir supprimer toutes les données ?</string>
+    <string name="acceptWipe">Oui</string>
+    <string name="denieWipe">Non</string>
 
     <!-- Populate spinner in Timer Settings -->
     <string-array name="timersettings_options">
         <item>Chronomètre</item>
-        <!-- <item>Compte à rebours</item> -->
+        <item>Pomodoro</item>
     </string-array>
 
     <string name="title_activity_chronometer">ChronometerActivity</string>

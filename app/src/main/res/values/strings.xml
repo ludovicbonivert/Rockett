@@ -25,12 +25,17 @@
     <string name="delete">Delete</string>
     <string name="login">Log in</string>
     <string name="signup">Sign up</string>
+    <string name="askConfirmation">Are you sure you want to wipe all the data ? </string>
+    <string name="acceptWipe">Yes</string>
+    <string name="denieWipe">No</string>
 
     <!-- Populate spinner in Timer Settings -->
     <string-array name="timersettings_options">
         <item>Chronometer</item>
-        <!--<item>Countdown</item> -->
+        <item>Pomodoro</item>
     </string-array>
+
+    <string name="wipe_data">Wipe Data</string>
 
     <string name="title_activity_chronometer">ChronometerActivity</string>
     <string name="title_activity_countdown">CountdownActivity</string>

@@ -32,7 +32,7 @@ public class ChronometerActivity extends ActionBarActivity {
         setContentView(R.layout.activity_chronometer);
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container, new PlaceholderFragment())
+                    .add(R.id.container, new ChronometerFragment())
                     .commit();
         }
         setTitle("Rocketting");
@@ -67,25 +67,21 @@ public class ChronometerActivity extends ActionBarActivity {
     /**
      * A placeholder fragment containing a simple view.
      */
-    public static class PlaceholderFragment extends Fragment {
+    public static class ChronometerFragment extends Fragment {
 
         private Chronometer chronometer;
         private Intent intent;
         // the assigned task
-        String task;
-        long timeWhenPaused = 0;
-
+        private String task;
+        private long timeWhenPaused = 0;
         // the receiver will receive the broadcast from the service
-        IntentFilter filter;
-        BroadcastReceiver receiver;
+        private IntentFilter filter;
+        private BroadcastReceiver receiver;
+        private boolean chronoPaused = false;
 
+        public ChronometerFragment() {
 
-        boolean chronoPaused = false;
-
-        public PlaceholderFragment() {
         }
-
-
 
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -94,7 +90,6 @@ public class ChronometerActivity extends ActionBarActivity {
 
             // receive intent from previous activity, normally settings with the task :))
             intent = getActivity().getIntent();
-
             filter = new IntentFilter();
             filter.addAction("Starting chrono");
             receiver = new BroadcastReceiver() {
@@ -106,14 +101,13 @@ public class ChronometerActivity extends ActionBarActivity {
                     chronometer.start();
                 }
             };
-
             getActivity().registerReceiver(receiver, filter);
+
             chronometer = (Chronometer) rootView.findViewById(R.id.chronometer);
             createListenerOnPauseButton(rootView);
             createListenerOnStopButton(rootView);
             createListenerOnRestartButton(rootView);
             populateTextViewWithTaskFromIntent(rootView);
-
             // Start the chronometer service
             getActivity().startService(new Intent(getActivity().getBaseContext(), ChronometerService.class));
 
@@ -149,7 +143,6 @@ public class ChronometerActivity extends ActionBarActivity {
         }
 
         private void createListenerOnRestartButton(View rootview){
-
             Button restartButton = (Button) rootview.findViewById(R.id.btn_restartChrono);
             restartButton.setOnClickListener(new View.OnClickListener() {
 
@@ -184,7 +177,6 @@ public class ChronometerActivity extends ActionBarActivity {
                     chrono.setTimeInSeconds(seconds);
                     chrono.setTimeInMinutes(minutes);
                     chrono.setTask(task);
-
                     chrono.save();
 
                     Intent backToMain = new Intent(getActivity(), MainActivity.class);
@@ -195,9 +187,8 @@ public class ChronometerActivity extends ActionBarActivity {
         }
 
         private void populateTextViewWithTaskFromIntent(View rootview){
-
             task = intent.getExtras().getString(getString(R.string.taskParamForIntent));
-            TextView taskTextView = (TextView) rootview.findViewById(R.id.task);
+            TextView taskTextView = (TextView) rootview.findViewById(R.id.taskChrono);
             taskTextView.setText(task);
 
         }

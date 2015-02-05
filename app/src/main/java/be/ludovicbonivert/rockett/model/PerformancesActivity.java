@@ -1,5 +1,8 @@
 package be.ludovicbonivert.rockett.model;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.NavUtils;
@@ -11,6 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
 
 import java.util.List;
@@ -52,7 +56,9 @@ public class PerformancesActivity extends ActionBarActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.wipe_data) {
+            createConfirmationDialog();
+
             return true;
         }
 
@@ -64,19 +70,50 @@ public class PerformancesActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    public void createConfirmationDialog(){
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
+        alertDialog.setMessage(R.string.askConfirmation);
+        alertDialog.setCancelable(false);
+        alertDialog.setPositiveButton(R.string.acceptWipe, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Chronos.deleteAll(Chronos.class);
+                ListView listview = (ListView) findViewById(R.id.perf_listView);
+                listview.setAdapter(null);
+            }
+        });
+
+        alertDialog.setNegativeButton(R.string.denieWipe, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+
+        AlertDialog alert = alertDialog.create();
+        alert.show();
+        //alertDialog.create().show();
+        Button nbutton = alert.getButton(DialogInterface.BUTTON_NEGATIVE);
+        nbutton.setTextColor(Color.WHITE);
+
+        Button pbutton = alert.getButton(DialogInterface.BUTTON_POSITIVE);
+        pbutton.setTextColor(getResources().getColor(R.color.blue_800));
+
+    }
+
     /**
      * A placeholder fragment containing a simple view.
      */
     public static class PerformancesFragment extends Fragment {
 
         private ListView listView;
-        List<Chronos> chronos = Chronos.listAll(Chronos.class);
+        public List<Chronos> chronos = Chronos.listAll(Chronos.class);
         // Adapter needs context so getActivity is maybe not the good one to give
         private CustomPerformancesAdapter mainAdapter;
-        Runnable run;
+        public Runnable run;
 
         // holding the current task the user is clicking in the listview
-        int currentTaskId;
+        public int currentTaskId;
 
         // get the selected object to remove
         static Chronos selectedobject;
@@ -133,6 +170,6 @@ public class PerformancesActivity extends ActionBarActivity {
             listView.setAdapter(mainAdapter);
 
         }
-
     }
+
 }
