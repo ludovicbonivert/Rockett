@@ -17,7 +17,7 @@
     <string name="txt_view_performances">Voir performances</string>
     <string name="txt_add_note">Ajouter tâche</string>
     <string name="txt_task_hint">Qu\'elle tâche allez vous effectuer ?</string>
-    <string name="title_activity_timer_settings">Paramètres Timer</string>
+    <string name="title_activity_timer_settings">Paramètres</string>
     <string name="working_on">Travaille à</string>
     <string name="task_for_empty_intent">créer un meilleur monde</string>
     <string name="taskParamForIntent">taskNote</string>
@@ -25,6 +25,7 @@
     <string name="delete">Supprimer</string>
     <string name="login">Connexion</string>
     <string name="signup">Inscription</string>
+    <string name="wipe_data">Supprimer Données</string>
     <string name="askConfirmation">Êtes-vous sûr de vouloir supprimer toutes les données ?</string>
     <string name="acceptWipe">Oui</string>
     <string name="denieWipe">Non</string>

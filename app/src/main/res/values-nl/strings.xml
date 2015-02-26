@@ -19,12 +19,13 @@
     <string name="txt_task_hint">Aan wat zal je werken ? </string>
     <string name="title_activity_timer_settings">Timer Settings</string>
     <string name="working_on">Ik werk aan</string>
-    <string name="task_for_empty_intent">de wereld beter te maken</string>
+    <string name="task_for_empty_intent">de wereld beter maken</string>
     <string name="taskParamForIntent">taskNote</string>
     <string name="performancesActivity">Jouw performances</string>
     <string name="delete">Verwijderen</string>
     <string name="login">Log in</string>
     <string name="signup">Registreren</string>
+    <string name="wipe_data">Verwijder Data</string>
     <string name="askConfirmation">Bent u zeker dat u al de data wilt verwijderen ?</string>
     <string name="acceptWipe">Ja</string>
     <string name="denieWipe">Nee</string>

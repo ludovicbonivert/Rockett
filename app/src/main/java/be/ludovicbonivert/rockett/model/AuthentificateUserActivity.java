@@ -13,7 +13,6 @@ public class AuthentificateUserActivity extends Activity {
 
     // get the action from the intent
     private String actionType;
-
     private String emailField;
     private String passwordField;
     private Button button;

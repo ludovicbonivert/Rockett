@@ -105,6 +105,7 @@
                     android:layout_gravity="center_horizontal"
                     android:background="#ffffff"
                     android:textSize="13sp" />
+
             </LinearLayout>
 
 
@@ -151,11 +152,7 @@
                     android:background="#ffffff"
                     android:textSize="13sp" />
             </LinearLayout>
-
-
         </LinearLayout>
-
-
 
     </LinearLayout>
 

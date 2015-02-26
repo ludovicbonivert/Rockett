@@ -33,6 +33,7 @@ public class CountdownActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_countdown);
+
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.container, new CountdownFragment())
@@ -80,9 +81,6 @@ public class CountdownActivity extends ActionBarActivity {
         public BroadcastReceiver receiver;
         public Countdown countdown;
 
-
-
-
         public CountdownFragment() {
         }
 
@@ -94,7 +92,7 @@ public class CountdownActivity extends ActionBarActivity {
 
             // 25 minutes = Pomodoro technique = 1500000 Milliseconds
             // 1 minute = 60000 mms
-            countdown = new Countdown(10000, 1000);
+            countdown = new Countdown(1501000, 1000);
             intent = getActivity().getIntent();
             filter = new IntentFilter();
             filter.addAction("Starting countdown");
@@ -110,9 +108,9 @@ public class CountdownActivity extends ActionBarActivity {
 
             countdown.start();
             getActivity().registerReceiver(receiver, filter);
-            //createListenerOnPauseButton(rootView);
+
             createListenerOnStopButton(rootView);
-            //createListenerOnRestartButton(rootView);
+
             populateTextViewWithTaskFromIntent(rootView);
 
             // Start the countdown service
@@ -185,13 +183,14 @@ public class CountdownActivity extends ActionBarActivity {
             public void onFinish() {
                 // ALARM
                 Chronos chrono = new Chronos();
-                chrono.setTimeInSeconds(60);
-                chrono.setTimeInMinutes(1);
+                chrono.setTimeInSeconds(1500);
+                chrono.setTimeInMinutes(25);
                 chrono.setTask(task);
                 chrono.save();
 
                 Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
                 Ringtone r = RingtoneManager.getRingtone(getActivity().getApplicationContext(), notification);
+
                 r.play();
 
                 Intent backToMain = new Intent (getActivity(), MainActivity.class);

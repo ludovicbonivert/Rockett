@@ -43,6 +43,15 @@ public class MainActivity extends ActionBarActivity {
                     .add(R.id.container, new TimerInfoFragment())
                     .commit();
         }
+
+        /*
+        Locale locale = new Locale("nl");
+        Locale.setDefault(locale);
+        Configuration config = new Configuration();
+        config.locale = locale;
+        getApplicationContext().getResources().updateConfiguration(config, null);
+        */
+
         // We need to determine our internet connection. If connected, load data from parse else load from local storage
         getInternetStatusOfDevice();
     }

@@ -29,6 +29,9 @@
     <string name="acceptWipe">Yes</string>
     <string name="denieWipe">No</string>
 
+    <string name="Chrono_pauseBtn_Pause">Pause</string>
+    <string name="Chrono_pauseBtn_Resume">Resume</string>
+
     <!-- Populate spinner in Timer Settings -->
     <string-array name="timersettings_options">
         <item>Chronometer</item>

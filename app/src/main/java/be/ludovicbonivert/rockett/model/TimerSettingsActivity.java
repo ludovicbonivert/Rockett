@@ -38,9 +38,7 @@ public class TimerSettingsActivity extends ActionBarActivity {
             // No idea but I need to executePendingTransactions before launching the next activity. Else the app crash ONLY in debug mode
             getSupportFragmentManager().executePendingTransactions();
         }
-
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -102,7 +100,6 @@ public class TimerSettingsActivity extends ActionBarActivity {
         private void createListenerOnStartTimerButton(final View rootview){
 
             final String taskParamforIntent = "taskNote";
-
             Button btn_startTimer = (Button) rootview.findViewById(R.id.button_startTimer);
             btn_startTimer.setOnClickListener(
                     new View.OnClickListener(){

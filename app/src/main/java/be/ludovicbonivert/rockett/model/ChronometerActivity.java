@@ -30,6 +30,7 @@ public class ChronometerActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chronometer);
+
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.container, new ChronometerFragment())
@@ -39,7 +40,6 @@ public class ChronometerActivity extends ActionBarActivity {
         getWindow().getDecorView().setBackgroundColor(getResources().getColor(R.color.main_blue));
 
     }
-
 
 
     @Override
@@ -60,6 +60,7 @@ public class ChronometerActivity extends ActionBarActivity {
         if (id == R.id.action_settings) {
             return true;
         }
+
 
         return super.onOptionsItemSelected(item);
     }
@@ -122,17 +123,19 @@ public class ChronometerActivity extends ActionBarActivity {
         }
 
         private void createListenerOnPauseButton(View rootview){
-            Button pauseButton = (Button) rootview.findViewById(R.id.btn_pauseChrono);
+            final Button pauseButton = (Button) rootview.findViewById(R.id.btn_pauseChrono);
             pauseButton.setOnClickListener(new View.OnClickListener(){
                 @Override
                 public void onClick(View v) {
                    /* If the chrono is paused we need to resume it */
                     if(chronoPaused){
+                        pauseButton.setText(getString(R.string.Chrono_pauseBtn_Pause));
                         chronometer.setBase(SystemClock.elapsedRealtime() + timeWhenPaused);
                         chronometer.start();
                         chronoPaused = !chronoPaused;
 
                     } else if (!chronoPaused){
+                        pauseButton.setText(getString(R.string.Chrono_pauseBtn_Resume));
                         timeWhenPaused = chronometer.getBase() - SystemClock.elapsedRealtime();
                         chronometer.stop();
                         chronoPaused = !chronoPaused;
