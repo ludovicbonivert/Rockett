@@ -7,6 +7,7 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
+import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -52,8 +53,6 @@ public class MainActivity extends ActionBarActivity {
         getApplicationContext().getResources().updateConfiguration(config, null);
         */
 
-        // We need to determine our internet connection. If connected, load data from parse else load from local storage
-        getInternetStatusOfDevice();
     }
 
     @Override
@@ -112,6 +111,7 @@ public class MainActivity extends ActionBarActivity {
             View rootView = inflater.inflate(R.layout.fragment_main, container, false);
             createListenerOnViewPerformancesButton(rootView);
             getTotalProductivityMinutes(rootView);
+            getDailyRocketts(rootView);
             return rootView;
         }
 
@@ -143,8 +143,27 @@ public class MainActivity extends ActionBarActivity {
 
             totalMinutesMain.setText(String.valueOf(Math.round(totalProductivityMinutes)));
             // We need to call the converter AFTER the parsing is done.
-            convertTotalProductivityMinutesToRocketts(rootview);
+            //convertTotalProductivityMinutesToRocketts(rootview);
             calculateAverageProductivity(rootview);
+
+        }
+
+        private void getDailyRocketts(View rootview){
+            // Get all the objects
+            List<Chronos> chronos = Chronos.listAll(Chronos.class);
+            int todaysRocketts = 0;
+            for (int i = 0, j = chronos.size(); i < j; i++) {
+                if (i == 0) {
+                    amountOfChronosObjects = chronos.size();
+                }
+                // If todays date is equal to a rockett's date, add it up to the today's counter
+                if(DateUtils.isToday(chronos.get(i).getCreatedAt().getTime())){
+                   todaysRocketts += Math.round(chronos.get(i).getTimeInMinutes() / 25);
+                }
+            }
+
+            TextView totalRocketts = (TextView) rootview.findViewById(R.id.total_rocketts);
+            totalRocketts.setText(String.valueOf(Math.round(todaysRocketts)));
 
         }
 

@@ -28,7 +28,6 @@ public class Chronos extends SugarRecord<Chronos> implements Comparable<Chronos>
         //createdAt = Calendar.getInstance().getTime();
         createdAt = date;
         dateFormatted = dateFormat.format(date);
-        System.out.println(dateFormat.format(date));
     }
 
     public Chronos(Date createdAt, String task, int timeInSeconds, int timeInMinutes, String dateFormatted){

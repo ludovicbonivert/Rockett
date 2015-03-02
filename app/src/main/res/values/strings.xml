@@ -9,7 +9,7 @@
     <string name="txt_total_productivity" translatable="true">TOTAL PRODUCTIVITY MINUTES</string>
     <string name="txt_submain_prev_week">prev. week</string>
     <string name="txt_submain_average_user">average min.</string>
-    <string name="txt_submain_total_rocketts">total rocketts</string>
+    <string name="txt_submain_daily_rocketts">daily rocketts</string>
     <string name="txt_submain_prev_week_result">[-----]</string>
     <string name="txt_submain_average_user_result">[-----]</string>
     <string name="txt_submain_total_rocketts_result">[-----]</string>

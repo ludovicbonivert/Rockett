@@ -100,7 +100,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/txt_submain_total_rocketts"
+                    android:text="@string/txt_submain_daily_rocketts"
                     android:id="@+id/textView3"
                     android:layout_gravity="center_horizontal"
                     android:background="#ffffff"
