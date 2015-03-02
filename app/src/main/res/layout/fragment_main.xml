@@ -104,7 +104,8 @@
                     android:id="@+id/textView3"
                     android:layout_gravity="center_horizontal"
                     android:background="#ffffff"
-                    android:textSize="13sp" />
+                    android:textSize="13sp"
+                    android:gravity="center_vertical|center_horizontal" />
 
             </LinearLayout>
 
@@ -150,7 +151,8 @@
                     android:id="@+id/textView2"
                     android:layout_gravity="center_horizontal"
                     android:background="#ffffff"
-                    android:textSize="13sp" />
+                    android:textSize="13sp"
+                    android:gravity="center_vertical|center_horizontal" />
             </LinearLayout>
         </LinearLayout>
 

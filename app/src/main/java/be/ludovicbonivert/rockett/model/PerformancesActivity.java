@@ -164,11 +164,28 @@ public class PerformancesActivity extends ActionBarActivity {
         }
 
         private void initPerformancesListView(View rootview){
+            //mainAdapter = new CustomPerformancesAdapter(getActivity(), chronos);
             mainAdapter = new CustomPerformancesAdapter(getActivity(), chronos);
             // init ListView
             listView = (ListView) rootview.findViewById(R.id.perf_listView);
-            listView.setAdapter(mainAdapter);
 
+            // Create separator
+            /*for(int i = 0; i < chronos.size(); i++){
+                // Ici on doit check chaque date
+
+                if(i + 1 < chronos.size()){
+
+                    if(chronos.get(i).getCreatedAt().compareTo(chronos.get(i+1).getCreatedAt()) == 0){
+                        Log.e("Performances", "The same");
+                    }else if(chronos.get(i).getCreatedAt().compareTo(chronos.get(i+1).getCreatedAt()) < 0){
+                        Log.e("Performances", "Before");
+                    }else if(chronos.get(i).getCreatedAt().compareTo(chronos.get(i+1).getCreatedAt()) > 0){
+                        Log.e("Performances", "After");
+                    }
+                }
+            }*/
+
+            listView.setAdapter(mainAdapter);
         }
     }
 

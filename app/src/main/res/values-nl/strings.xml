@@ -8,20 +8,20 @@
     <string name="main_timer">[-----]</string>
     <string name="txt_total_productivity" translatable="true">TOTAAL MINUTEN PRODUCTIEF</string>
     <string name="txt_submain_prev_week">vorige week</string>
-    <string name="txt_submain_average_user">gemiddelde min.</string>
-    <string name="txt_submain_total_rocketts">totaal rocketts</string>
+    <string name="txt_submain_average_user">gemiddelde minuten</string>
+    <string name="txt_submain_daily_rocketts">dagelijkse rocketts</string>
     <string name="txt_submain_prev_week_result">[-----]</string>
     <string name="txt_submain_average_user_result">[-----]</string>
     <string name="txt_submain_total_rocketts_result">[-----]</string>
     <string name="txt_rockett_the_world">Rockett the world</string>
-    <string name="txt_view_performances">Bekijk performances</string>
+    <string name="txt_view_performances">Bekijk prestaties</string>
     <string name="txt_add_note">Taak toevoegen</string>
     <string name="txt_task_hint">Aan wat zal je werken ? </string>
-    <string name="title_activity_timer_settings">Timer Settings</string>
+    <string name="title_activity_timer_settings">Timer Instellingen</string>
     <string name="working_on">Ik werk aan</string>
     <string name="task_for_empty_intent">de wereld beter maken</string>
     <string name="taskParamForIntent">taskNote</string>
-    <string name="performancesActivity">Jouw performances</string>
+    <string name="performancesActivity">Jouw prestaties</string>
     <string name="delete">Verwijderen</string>
     <string name="login">Log in</string>
     <string name="signup">Registreren</string>

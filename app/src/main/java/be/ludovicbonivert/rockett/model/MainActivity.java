@@ -46,12 +46,13 @@ public class MainActivity extends ActionBarActivity {
         }
 
         /*
-        Locale locale = new Locale("nl");
+        Locale locale = new Locale("fr");
         Locale.setDefault(locale);
         Configuration config = new Configuration();
         config.locale = locale;
         getApplicationContext().getResources().updateConfiguration(config, null);
         */
+
 
     }
 

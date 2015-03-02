@@ -19,6 +19,7 @@ public class Chronos extends SugarRecord<Chronos> implements Comparable<Chronos>
     String task;
     double timeInSeconds;
     double timeInMinutes;
+    boolean isSection;
 
 
     public Chronos(){
@@ -29,6 +30,12 @@ public class Chronos extends SugarRecord<Chronos> implements Comparable<Chronos>
         createdAt = date;
         dateFormatted = dateFormat.format(date);
     }
+
+    public Chronos(boolean isSection){
+        this.isSection = isSection;
+    }
+
+
 
     public Chronos(Date createdAt, String task, int timeInSeconds, int timeInMinutes, String dateFormatted){
         this.createdAt = createdAt;
@@ -83,5 +90,10 @@ public class Chronos extends SugarRecord<Chronos> implements Comparable<Chronos>
     @Override
     public int compareTo(Chronos another) {
         return getDateFormatted().compareTo(another.getDateFormatted());
+    }
+
+
+    public boolean getIsSection() {
+        return isSection;
     }
 }

@@ -6,10 +6,10 @@
     <string name="action_settings">Paramètres</string>
     <string name="action_addTimer">Démarrer</string>
     <string name="main_timer">[-----]</string>
-    <string name="txt_total_productivity" translatable="true">TOTAL DE MINUTES PRODUCTIVES</string>
+    <string name="txt_total_productivity" translatable="true">TOTAL MINUTES PRODUCTIVES</string>
     <string name="txt_submain_prev_week">semaine prec.</string>
-    <string name="txt_submain_average_user">moyenne min.</string>
-    <string name="txt_submain_total_rocketts">total rocketts</string>
+    <string name="txt_submain_average_user">minutes en moyenne</string>
+    <string name="txt_submain_daily_rocketts">rocketts journalières</string>
     <string name="txt_submain_prev_week_result">[-----]</string>
     <string name="txt_submain_average_user_result">[-----]</string>
     <string name="txt_submain_total_rocketts_result">[-----]</string>

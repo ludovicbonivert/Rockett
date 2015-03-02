@@ -64,31 +64,42 @@ public class CustomPerformancesAdapter extends BaseAdapter{
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+
+
+
         // Create the cell and populate it with the element from the list
         if(convertView == null){
-            convertView = inflater.inflate(R.layout.list_item, parent, false);
+
+            if(items.get(position) != null){
+                if(items.get(position).getIsSection()){
+                    convertView = inflater.inflate(R.layout.list_separator, parent, false);
+
+
+                }else {
+                    convertView = inflater.inflate(R.layout.list_item, parent, false);
+                    // Add the timer view
+                    TextView timerTextView = (TextView) convertView.findViewById(R.id.item_timer);
+                    if(items.get(position).getTimeInSeconds() < 60){
+                        timerTextView.setText(Math.round(items.get(position).getTimeInSeconds()) + " sec");
+
+                    } else{
+                        Math.round(items.get(position).getTimeInMinutes());
+                        timerTextView.setText(Math.round(items.get(position).getTimeInMinutes()) + " min");
+
+                    }
+
+                    // Add the task view
+                    TextView taskTextView = (TextView) convertView.findViewById(R.id.item_task);
+                    taskTextView.setText(items.get(position).getTask());
+
+                    // Add the date view
+                    TextView dateTextView = (TextView) convertView.findViewById(R.id.item_date);
+                    dateTextView.setText(items.get(position).getDateFormatted());
+
+                }
+            }
+
         }
-
-        // Add the timer view
-        TextView timerTextView = (TextView) convertView.findViewById(R.id.item_timer);
-
-        if(items.get(position).getTimeInSeconds() < 60){
-            timerTextView.setText(Math.round(items.get(position).getTimeInSeconds()) + " sec");
-
-        } else{
-            Math.round(items.get(position).getTimeInMinutes());
-            timerTextView.setText(Math.round(items.get(position).getTimeInMinutes()) + " min");
-
-        }
-
-        // Add the task view
-        TextView taskTextView = (TextView) convertView.findViewById(R.id.item_task);
-        taskTextView.setText(items.get(position).getTask());
-
-        // Add the date view
-        TextView dateTextView = (TextView) convertView.findViewById(R.id.item_date);
-        dateTextView.setText(items.get(position).getDateFormatted());
-
-        return convertView;
+    return convertView;
     }
 }
